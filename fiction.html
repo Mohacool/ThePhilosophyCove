@@ -24,63 +24,107 @@
         $(document).ready(function () {
             //your code here
 
+            
+            $.get('/posts/fiction/include',{},function(content){
+
+                // Ex:  ["1_blah_blah","2_blee_blee"]
+                let post_names=content.split('\n');
+
+                console.log(post_names);
+
+                // Loop through first 3 posts (all posts currently )
+                // Later put in function and load 3 at a time
+                // each time View more is clicked change i. for example i=3 -> 6
+                for (i=0;i<post_names.length;i++){
+
+                    let post_name = post_names[i];
+                    let post_number = post_names[i].split('_')[0];
+                    let post_location = `/posts/fiction/${post_name}.txt`;
+                    
 
 
-            $('body').append(`
+                    // If its not an empty line
+                    if (post_name.length!=0){
 
-            <div class="container pt-4 do">
-                <div class="row">
+                        console.log(post_name);
+                        console.log(post_number);
 
-                    <div class="col-md-2"></div>
-                    <div class="col-md-8 do">
-                        
-                        <div class="row do">
-                            <h5 id="title1" class="mx-auto  post_title" ></p>
-                        </div>
+                        $('body').append(`
 
-                        <div class="row mydate do">
-                            <p id="date1" class="mx-auto" style="font-style:italic; font-size:14px;"></p>
-                        </div>
+                            <div class="container pt-4 do">
+                                <div class="row">
 
-                        <p id="story1"></p>
+                                    <div class="col-md-2"></div>
+                                    <div class="col-md-8 do">
+                                        
+                                        <div class="row do">
+                                            <h5 id="${"title"+post_number}" class="mx-auto  post_title" ></p>
+                                        </div>
 
-                    </div>
-                </div>
-            </div>
+                                        <div class="row mydate do">
+                                            <p id="${"date"+post_number}" class="mx-auto" style="font-style:italic; font-size:14px;"></p>
+                                        </div>
 
-            <div class="row mt-3">
-                <p class="mx-auto">_______________</p>
-            </div>
+                                        <p id="${"story"+post_number}"></p>
 
-            `);
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row mt-3">
+                                <p class="mx-auto">_______________</p>
+                            </div>
+
+                        `);
+
+                        $.get(post_location,{},function(content){
+
+                            let lines=content.split('\n');
+
+                            // Get title,date and body 
+                            let title = lines[0];
+                            let date = lines[2];
+                            let body = lines.slice(4,);
 
 
 
-            // ADD: Get latest 3 posts put them in DOM
+                            // New body after adding line breaks
+                            let blody = body.map( element => element.replace('','<br>'));
 
-            $.get('/posts/fiction/fiction1_a_walk_in_the_park.txt',{},function(content){
+                            //console.log(`Title : ${title}`);
+                            //console.log(`Date : ${date}`);
+                            //console.log(`Body : ${blody}`);
 
-                let lines=content.split('\n');
+                            // append to divs
+                            $(`#title${post_number}`).text(title);
+                            $(`#date${post_number}`).text(date);
+                            $(`#story${post_number}`).html(blody);
 
-                let title = lines[0];
-                let date = lines[2];
-                let body = lines.slice(4,);
 
-                console.log(`Title : ${title}`);
-                console.log(`Date : ${date}`);
-                
-                
-                let blody = body.map( element => element.replace('','<br>'));
-                console.log(`Body : ${blody}`);
 
-                
-                $("#title1").text(title);
-                $("#date1").text(date);
-                $("#story1").html(blody);
+                        });
 
+
+                    }
+                    
+
+                }
 
 
             });
+
+            
+            
+
+            
+
+            
+
+
+
+            
+
+            
 
 
         });
@@ -119,36 +163,11 @@
     -->
 
     
-    <!-- BLOG POST SAMPLE-->
-    <div class="container pt-4 do">
-        <div class="row">
-            <div class="col-md-2"></div>
-
-            <div class="col-md-8 do">
-                
-                <div class="row do">
-                    <h5 id="title1" class="mx-auto  post_title" ></p>
-                </div>
-                <div class="row mydate do">
-                    <p id="date1" class="mx-auto" style="font-style:italic; font-size:14px;"></p>
-                    
-                </div>
-
-                    <p id="story1">
-                        
-                    </p>
-
-                </div>
-        </div>
-        
-    </div>
-    <div class="row mt-3">
-        <p class="mx-auto">_______________</p>
-    </div>
+    
 
     
 
-    <!-- BLOG POST SAMPLE-->
+    <!-- BLOG POST SAMPLE
     <div class="container pt-4 do">
         <div class="row">
             <div class="col-md-2"></div>
@@ -179,6 +198,7 @@
         </div>
         
     </div>
+    -->
     
 
 
