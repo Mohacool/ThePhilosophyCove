@@ -4,8 +4,172 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Short Stories | The Philosophy Cove</title>
+
+    <!-- Import our css file -->
+    <link href="short_style.css" rel="stylesheet">
+
+    <!-- Import Bootstrap,Jquery... -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js" integrity="sha384-b/U6ypiBEHpOf/4+1nzFpr53nxSS+GLCkfwBdFNTxtclqqenISfwAzpKaMNFNmj4" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js" integrity="sha384-h0AbiXch4ZDo7tp9hKZ4TsHbi047NrKGLO3SEJAg45jXxnGIfYzk4Si90RDIqNm1" crossorigin="anonymous"></script>
+
+    <script
+    src="https://code.jquery.com/jquery-3.4.1.min.js"
+    integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
+    crossorigin="anonymous"></script>
+    <script type="text/javascript">
+
+
+        $(document).ready(function () {
+            //your code here
+            $.get('short1_a_walk_in_the_park.txt',{},function(content){
+
+                let lines=content.split('\n');
+
+                let title = lines[0];
+                let date = lines[2];
+                let body = lines.slice(4,);
+
+                console.log(`Title : ${title}`);
+                console.log(`Date : ${date}`);
+                
+                
+                let blody = body.map( element => element.replace('','<br>'));
+                console.log(`Body : ${blody}`);
+
+                
+                $("#title1").text("Hello");
+                $("#story1").html(blody);
+
+
+
+            });
+        });
+        
+        
+    </script>
+
 </head>
+
+
 <body>
-    
+    <nav class="navbar sticky-top navbar-light desktop">
+        <a class="navbar-brand pt-3 pl-2" href="index.html">
+          <img class="mylogo" height ="60" width = "60" src="logo.png"  alt="">
+        </a>
+        <h5 class="subtitle navbar-text mr-auto">SHORT STORIES</h5>
+           
+    </nav>
+
+   
+    <!--
+    <div class="pos-f-t">
+        <div class="collapse" id="navbarToggleExternalContent">
+          <div class="bg-dark p-4">
+            <h4 class="text-white">By Date</h4>
+            
+            <span class="text-muted">Toggleable via the navbar brand.</span>
+          </div>
+        </div>
+        <nav class="navbar navbar-dark bg-dark">
+          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggleExternalContent" aria-controls="navbarToggleExternalContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+        </nav>
+    </div>
+    -->
+
+    <!-- BLOG POST SAMPLE-->
+    <div class="container pt-4 do">
+        <div class="row">
+            <div class="col-md-2"></div>
+
+            <div class="col-md-8 do">
+                
+                <div class="row do">
+                    <h5 id="title1" class="mx-auto  post_title" ></p>
+                </div>
+                <div class="row mydate do">
+                    <p id="date1" class="mx-auto" style="font-style:italic; font-size:14px;">07/28/2020</p>
+                    
+                </div>
+
+                    <p id="story1">
+                        
+                    </p>
+
+                </div>
+        </div>
+        
+    </div>
+
+    <!-- BLOG POST SAMPLE-->
+    <div class="container pt-4 do">
+        <div class="row">
+            <div class="col-md-2"></div>
+
+            <div class="col-md-8 do">
+                
+                <div class="row do">
+                    <h5 class="mx-auto post_title" >A Walk in The Park </p>
+                </div>
+                <div class="row mydate do">
+                    <p class="mx-auto" style="font-style:italic; font-size:14px;">07/23/2020</p>
+                    
+                </div>
+
+                    <p>
+                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed ultricies sapien non efficitur dapibus. Aenean convallis iaculis felis, at bibendum ex gravida vel. Phasellus nec arcu sed neque dapibus scelerisque vel in ante. Aenean imperdiet velit non mauris dignissim, eu condimentum massa aliquet. Aenean vel ultrices lectus. In feugiat tellus faucibus felis pellentesque, id bibendum nunc convallis. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; Donec posuere neque purus. In non enim odio. Quisque enim justo, efficitur non vulputate a, fringilla ut urna.
+            
+            Donec in sem luctus mauris fermentum venenatis vitae ut neque. Mauris a hendrerit nunc. Donec pellentesque purus in ante suscipit imperdiet. Praesent lacinia, urna vitae congue varius, est leo commodo mauris, vel mollis mauris ligula a risus. Praesent nec enim quam. Ut ornare porttitor sodales. Praesent nisl urna, eleifend vel lectus sed, pharetra pretium leo. Maecenas facilisis neque at orci pulvinar vestibulum. Interdum et malesuada fames ac ante ipsum primis in faucibus. Nulla facilisi. Nulla aliquam, augue id ultrices imperdiet, enim ipsum vehicula risus, id fermentum turpis quam id lorem. Morbi vitae pretium lectus.
+            
+            Nullam tristique neque at viverra hendrerit. <br><br> Integer ut egestas erat. Maecenas quis ipsum ut est viverra imperdiet at vitae ante. Maecenas ac ullamcorper dui. Nunc eu pellentesque orci, id sagittis ex. Etiam eget quam ut enim hendrerit efficitur. Sed vehicula ex non tristique vehicula. Cras felis orci, pellentesque sit amet volutpat sed, gravida nec felis. Suspendisse tincidunt malesuada ornare. In tincidunt tellus risus, ac blandit nibh iaculis vitae. Integer ullamcorper augue id odio pulvinar ultrices. Curabitur et egestas dui. Ut erat risus, venenatis eget commodo a, scelerisque in tellus. Vivamus dapibus luctus maximus. In eget odio ante.
+            
+            Cras tempus, metus vel viverra feugiat, est leo ornare leo, quis dignissim nisl odio porta enim. Pellentesque sit amet dui quis libero pellentesque maximus faucibus vel dolor. Nullam sit amet ullamcorper ante. Sed condimentum ante ac faucibus pulvinar. Nullam arcu velit, faucibus sed mauris elementum, blandit semper justo. Nunc erat est, placerat at facilisis sed, condimentum nec quam. Sed a condimentum nibh. Sed vulputate tincidunt metus sit amet condimentum. Vivamus finibus viverra lacus. Nam vel nisl sollicitudin, tincidunt purus a, tincidunt nisi. Nullam id eros imperdiet, rhoncus sapien nec, pulvinar urna. Donec mattis purus eget urna vestibulum porttitor.
+            
+            Nulla euismod scelerisque faucibus. <br><br> Praesent ut ante dolor. Pellentesque porttitor, arcu ac euismod lobortis, velit tortor imperdiet ante, sit amet tempus sapien nulla sed lectus. Phasellus eu finibus elit. Vestibulum aliquet tincidunt efficitur. Proin at gravida est, sed malesuada enim. Ut in egestas nisi. Quisque aliquet ac nibh vel suscipit.
+                    </p>
+
+                </div>
+        </div>
+        
+    </div>
+    <div class="row mt-3">
+        <p class="mx-auto">_______________</p>
+    </div>
+    <!-- BLOG POST SAMPLE-->
+    <div class="container pt-4 do">
+        <div class="row">
+            <div class="col-md-2"></div>
+
+            <div class="col-md-8 do">
+                
+                <div class="row do">
+                    <h5 class="mx-auto post_title" >A Walk in The Park </p>
+                </div>
+                <div class="row mydate do">
+                    <p class="mx-auto" style="font-style:italic; font-size:14px;">07/23/2020</p>
+                    
+                </div>
+
+                    <p>
+                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed ultricies sapien non efficitur dapibus. Aenean convallis iaculis felis, at bibendum ex gravida vel. Phasellus nec arcu sed neque dapibus scelerisque vel in ante. Aenean imperdiet velit non mauris dignissim, eu condimentum massa aliquet. Aenean vel ultrices lectus. In feugiat tellus faucibus felis pellentesque, id bibendum nunc convallis. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; Donec posuere neque purus. In non enim odio. Quisque enim justo, efficitur non vulputate a, fringilla ut urna.
+            
+            Donec in sem luctus mauris fermentum venenatis vitae ut neque. Mauris a hendrerit nunc. Donec pellentesque purus in ante suscipit imperdiet. Praesent lacinia, urna vitae congue varius, est leo commodo mauris, vel mollis mauris ligula a risus. Praesent nec enim quam. Ut ornare porttitor sodales. Praesent nisl urna, eleifend vel lectus sed, pharetra pretium leo. Maecenas facilisis neque at orci pulvinar vestibulum. Interdum et malesuada fames ac ante ipsum primis in faucibus. Nulla facilisi. Nulla aliquam, augue id ultrices imperdiet, enim ipsum vehicula risus, id fermentum turpis quam id lorem. Morbi vitae pretium lectus.
+            
+            Nullam tristique neque at viverra hendrerit. <br><br> Integer ut egestas erat. Maecenas quis ipsum ut est viverra imperdiet at vitae ante. Maecenas ac ullamcorper dui. Nunc eu pellentesque orci, id sagittis ex. Etiam eget quam ut enim hendrerit efficitur. Sed vehicula ex non tristique vehicula. Cras felis orci, pellentesque sit amet volutpat sed, gravida nec felis. Suspendisse tincidunt malesuada ornare. In tincidunt tellus risus, ac blandit nibh iaculis vitae. Integer ullamcorper augue id odio pulvinar ultrices. Curabitur et egestas dui. Ut erat risus, venenatis eget commodo a, scelerisque in tellus. Vivamus dapibus luctus maximus. In eget odio ante.
+            
+            Cras tempus, metus vel viverra feugiat, est leo ornare leo, quis dignissim nisl odio porta enim. Pellentesque sit amet dui quis libero pellentesque maximus faucibus vel dolor. Nullam sit amet ullamcorper ante. Sed condimentum ante ac faucibus pulvinar. Nullam arcu velit, faucibus sed mauris elementum, blandit semper justo. Nunc erat est, placerat at facilisis sed, condimentum nec quam. Sed a condimentum nibh. Sed vulputate tincidunt metus sit amet condimentum. Vivamus finibus viverra lacus. Nam vel nisl sollicitudin, tincidunt purus a, tincidunt nisi. Nullam id eros imperdiet, rhoncus sapien nec, pulvinar urna. Donec mattis purus eget urna vestibulum porttitor.
+            
+            Nulla euismod scelerisque faucibus. <br><br> Praesent ut ante dolor. Pellentesque porttitor, arcu ac euismod lobortis, velit tortor imperdiet ante, sit amet tempus sapien nulla sed lectus. Phasellus eu finibus elit. Vestibulum aliquet tincidunt efficitur. Proin at gravida est, sed malesuada enim. Ut in egestas nisi. Quisque aliquet ac nibh vel suscipit.
+                    </p>
+
+                </div>
+        </div>
+        
+    </div>
+
+
 </body>
 </html>

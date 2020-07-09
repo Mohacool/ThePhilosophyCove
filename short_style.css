@@ -1,0 +1,86 @@
+
+html,body{
+    height:100%;
+    width:100%;
+    overflow-x: hidden;
+    background-color:rgb(255, 249, 234) !important;
+    
+}
+
+* {
+    margin: 0;
+    padding: 0;
+}
+
+
+
+.mytitle{
+    font-size:1.5em;
+}
+.mylogo{
+    width:60px;
+    height:60px;
+}
+
+
+.post_title{
+    font-style:bold;
+}
+
+p{
+    padding-left:10px;
+    padding-right:10px;
+    text-align:justify;
+}
+
+
+
+p::selection {
+    background: rgb(200, 158, 81); /* WebKit/Blink Browsers */
+    color:white;
+    font-style:bold;
+}
+
+p::-moz-selection {
+    background: rgb(155, 155, 155); /* Gecko Browsers */
+}
+
+.mydate{
+    margin-top:-25px;
+}
+.do{
+    border:1px solid transparent;
+    
+}
+.subtitle{
+    margin-top:10px;
+    font-size:18px;
+    transform:translate(8px,4px);
+    
+    
+    font-style:italic;
+    
+}
+
+.mylogo{
+    filter:grayscale(100%);
+    opacity:0.7;
+
+}
+
+.mylogo:hover{
+    filter:grayscale(20%);
+    transition: 0.5s ease;
+    opacity:1;
+    
+}
+
+a{
+    text-decoration:none;
+}
+
+@media only screen and (max-width: 480px) {
+    .mytitle{
+        font-size:18px;
+    }
+}

@@ -17,6 +17,8 @@
 </head>
 <body>
 
+    <!-- LOGO -->
+    <!--
     <div class="container pt-2 show">
 
         <div class="row show">
@@ -31,7 +33,7 @@
                 
                 <div class="row show">
 
-                    <!-- <h1 class="mx-auto ">THE PHILOSOPHY COVE</h1> !-->
+                    <!-- <h1 class="mx-auto ">THE PHILOSOPHY COVE</h1> ->
                 </div>
 
             </div>
@@ -41,15 +43,44 @@
 
     </div>
     
+
+    -->
+    
+    <nav class="navbar navbar-light desktop">
+        <a class="navbar-brand pt-4 pl-2" href="index.html">
+          <img class="mylogo" height ="60" width = "60" src="logo.png"  alt="">
+        </a>
+        <h5 class="mytitle navbar-text mr-auto">THE PHILOSOPHY COVE</h5>
+           
+    </nav>
+
+    <div class="mobile-nav">
+        <nav class="navbar navbar-light ">
+            <a class="navbar-brand mx-auto" href="index.html">
+              <img class="mylogo" height ="120" width = "120" src="logo.png"  alt="">
+            </a>
+            
+               
+        </nav>
+        <div class="row show">
+            <h2 class="mx-auto" >THE PHILOSOPHY COVE</h2>
+        </div>
+    </div>
+    
+    
+    
+    
+
+
+    
     
     <!-- CARDS CONTAINER -->
-    <div class="container show">
+    <div class="container all show">
 
         <!-- ROW FOR ALL CARDS -->
         <div class="row pad-card">
             
             <!-- HALF SIZE COLUMN 1 (CARD 1) -->
-
             <div class="col-md-6">
 
                 <div class="row blue">
@@ -61,9 +92,12 @@
                     <div class="col-md-10">
 
                         
-                        <div class="card card1 border-0 text-center" style="cursor:pointer">
+                        <div class="card mycard card1 border-0 text-center" style="cursor:pointer">
                             <div class="row show align-items-center">
-                                <img src="card2.jpg" class="card-img">
+                                
+                                <div class="card-img-wrap">
+                                    <img src="card2.jpg" class="card-img">
+                                </div>
                             
                                 <div class="card-img-overlay d-flex flex-column justify-content-center">
                                     <h1 class="card-title mycards">Short Stories </h1>
@@ -86,7 +120,7 @@
             </div>
             
             <!-- HALF SIZE COLUMN 2 (CARD 2) -->
-            <div class="col-md-6">
+            <div class="col-md-6 second_card">
  
                 <div class="row blue">
 
@@ -95,10 +129,14 @@
 
                     <!-- Card 10 units long-->
                     <div class="col">
-                        <div class="card border-0 text-center">
+                        <div class="card mycard border-0 text-center">
 
                             <div class="row show align-items-center">
-                                <img src="https://picsum.photos/1104/678" class="card-img ">
+
+                                <div class="card-img-wrap">
+                                    <img src="https://picsum.photos/1104/678" class="card-img ">
+
+                                </div>
                             
                                 <div class="card-img-overlay d-flex flex-column justify-content-center">
                                     <h1 class="card-title mycards">Philosophy </h1>
@@ -123,16 +161,16 @@
     </div>
 
     <!-- About me container -->
-    <div class="container">
+    <div class="container aboutme mb-4">
 
         <div class="row pad-about show">
 
             <div class="col-md-1"></div>
             <div class="col-md-10 aboutme show">
 
-                <div class="card border-0  text-center">
+                <div class="card border-0 text-center">
 
-                    <h1 class="card-title">About Me </h1>
+                    <h2 class="card-title">About Me </h1>
                     <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.
                         This is a wider card with supporting text below as a natural. This is a wider card with supporting text below as a natural. This is a wider card with supporting text below as a natural
                     </p>

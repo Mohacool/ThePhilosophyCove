@@ -2,30 +2,68 @@
 html,body{
     height:100%;
     width:100%;
+    overflow-x: hidden;
     
 }
 
 * {
     margin: 0;
     padding: 0;
-  }
+}
 
 .mycards{
     color:white;
+    z-index:101;
 }
 
-.card:hover{
-    -webkit-box-shadow: -1px 9px 40px -12px rgba(0,0,0,0.3);
+.all{
+    margin-top:20px;
 }
 
 .aboutme{
-    cursor:pointer;
+    
     border: 1px solid transparent;
+    margin-top:28px;
 }
 
-.aboutme:hover{
-    
+
+/*
+.show{
+    border:1px solid red;
 }
+
+.blue{
+    border:1px solid blue;
+}
+*/
+
+
+
+
+.mytitle{
+    transform:translateY(2px);
+}
+
+.mylogo{
+    filter: grayscale(100%);
+    opacity:0.8;
+}
+
+
+
+
+.card-img-wrap {
+    overflow: hidden;
+    position: relative;
+    width:100%;
+    height:100%;
+    z-index:100;
+}
+
+
+
+
+
 
 
 .pad-card{
@@ -33,7 +71,7 @@ html,body{
 }
 
 .pad-about{
-    margin-top:13px;
+    margin-top:-13px;
 }
 
 /*
@@ -57,4 +95,60 @@ html,body{
     transform-origin: 0 0;  /* Standard Property */
   }
 
+}
+
+.do{
+    border:1px solid red;
+}
+.desktop{
+    display:none !important;
+}
+.second_card{
+    padding-top:5px;
+}
+
+@media screen and (min-device-width: 480px) {
+
+   
+    .mylogo:hover{
+        filter:grayscale(20%);
+        opacity:1;
+        transition: 0.5s;
+    }
+
+    .card-img-wrap:hover img{
+        transform:scale(1.1);
+        transition: 2s ease;
+    }
+
+    .mycard:hover{
+        -webkit-box-shadow: -1px 9px 40px -12px rgba(0,0,0,0.3);
+        filter:grayscale(100%);
+        
+        transition:0.5s ease;
+        
+    }
+    
+
+    
+    .mobile-nav{
+        display:none !important;
+    }
+    .desktop{
+        display:unset !important;
+    }
+    
+    .all{
+        margin-top:60px;
+    }
+    .pad-about{
+        margin-top:13px;
+    }
+
+    .second_card{
+        padding-top:unset;
+    }
+    
+    
+  
 }
