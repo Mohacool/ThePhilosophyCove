@@ -23,7 +23,42 @@
 
         $(document).ready(function () {
             //your code here
-            $.get('fiction1_a_walk_in_the_park.txt',{},function(content){
+
+
+
+            $('body').append(`
+
+            <div class="container pt-4 do">
+                <div class="row">
+
+                    <div class="col-md-2"></div>
+                    <div class="col-md-8 do">
+                        
+                        <div class="row do">
+                            <h5 id="title1" class="mx-auto  post_title" ></p>
+                        </div>
+
+                        <div class="row mydate do">
+                            <p id="date1" class="mx-auto" style="font-style:italic; font-size:14px;"></p>
+                        </div>
+
+                        <p id="story1"></p>
+
+                    </div>
+                </div>
+            </div>
+
+            <div class="row mt-3">
+                <p class="mx-auto">_______________</p>
+            </div>
+
+            `);
+
+
+
+            // ADD: Get latest 3 posts put them in DOM
+
+            $.get('/posts/fiction/fiction1_a_walk_in_the_park.txt',{},function(content){
 
                 let lines=content.split('\n');
 
@@ -46,6 +81,8 @@
 
 
             });
+
+
         });
         
         
@@ -109,6 +146,8 @@
         <p class="mx-auto">_______________</p>
     </div>
 
+    
+
     <!-- BLOG POST SAMPLE-->
     <div class="container pt-4 do">
         <div class="row">
@@ -140,40 +179,7 @@
         </div>
         
     </div>
-    <div class="row mt-3">
-        <p class="mx-auto">_______________</p>
-    </div>
-    <!-- BLOG POST SAMPLE-->
-    <div class="container pt-4 do">
-        <div class="row">
-            <div class="col-md-2"></div>
-
-            <div class="col-md-8 do">
-                
-                <div class="row do">
-                    <h5 class="mx-auto post_title" >A Walk in The Park </p>
-                </div>
-                <div class="row mydate do">
-                    <p class="mx-auto" style="font-style:italic; font-size:14px;">07/23/2020</p>
-                    
-                </div>
-
-                    <p>
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed ultricies sapien non efficitur dapibus. Aenean convallis iaculis felis, at bibendum ex gravida vel. Phasellus nec arcu sed neque dapibus scelerisque vel in ante. Aenean imperdiet velit non mauris dignissim, eu condimentum massa aliquet. Aenean vel ultrices lectus. In feugiat tellus faucibus felis pellentesque, id bibendum nunc convallis. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; Donec posuere neque purus. In non enim odio. Quisque enim justo, efficitur non vulputate a, fringilla ut urna.
-            
-            Donec in sem luctus mauris fermentum venenatis vitae ut neque. Mauris a hendrerit nunc. Donec pellentesque purus in ante suscipit imperdiet. Praesent lacinia, urna vitae congue varius, est leo commodo mauris, vel mollis mauris ligula a risus. Praesent nec enim quam. Ut ornare porttitor sodales. Praesent nisl urna, eleifend vel lectus sed, pharetra pretium leo. Maecenas facilisis neque at orci pulvinar vestibulum. Interdum et malesuada fames ac ante ipsum primis in faucibus. Nulla facilisi. Nulla aliquam, augue id ultrices imperdiet, enim ipsum vehicula risus, id fermentum turpis quam id lorem. Morbi vitae pretium lectus.
-            
-            Nullam tristique neque at viverra hendrerit. <br><br> Integer ut egestas erat. Maecenas quis ipsum ut est viverra imperdiet at vitae ante. Maecenas ac ullamcorper dui. Nunc eu pellentesque orci, id sagittis ex. Etiam eget quam ut enim hendrerit efficitur. Sed vehicula ex non tristique vehicula. Cras felis orci, pellentesque sit amet volutpat sed, gravida nec felis. Suspendisse tincidunt malesuada ornare. In tincidunt tellus risus, ac blandit nibh iaculis vitae. Integer ullamcorper augue id odio pulvinar ultrices. Curabitur et egestas dui. Ut erat risus, venenatis eget commodo a, scelerisque in tellus. Vivamus dapibus luctus maximus. In eget odio ante.
-            
-            Cras tempus, metus vel viverra feugiat, est leo ornare leo, quis dignissim nisl odio porta enim. Pellentesque sit amet dui quis libero pellentesque maximus faucibus vel dolor. Nullam sit amet ullamcorper ante. Sed condimentum ante ac faucibus pulvinar. Nullam arcu velit, faucibus sed mauris elementum, blandit semper justo. Nunc erat est, placerat at facilisis sed, condimentum nec quam. Sed a condimentum nibh. Sed vulputate tincidunt metus sit amet condimentum. Vivamus finibus viverra lacus. Nam vel nisl sollicitudin, tincidunt purus a, tincidunt nisi. Nullam id eros imperdiet, rhoncus sapien nec, pulvinar urna. Donec mattis purus eget urna vestibulum porttitor.
-            
-            Nulla euismod scelerisque faucibus. <br><br> Praesent ut ante dolor. Pellentesque porttitor, arcu ac euismod lobortis, velit tortor imperdiet ante, sit amet tempus sapien nulla sed lectus. Phasellus eu finibus elit. Vestibulum aliquet tincidunt efficitur. Proin at gravida est, sed malesuada enim. Ut in egestas nisi. Quisque aliquet ac nibh vel suscipit.
-                    </p>
-
-                </div>
-        </div>
-        
-    </div>
+    
 
 
 </body>
