@@ -23,7 +23,7 @@
 
         $(document).ready(function () {
             //your code here
-            $.get('short1_a_walk_in_the_park.txt',{},function(content){
+            $.get('fiction1_a_walk_in_the_park.txt',{},function(content){
 
                 let lines=content.split('\n');
 
@@ -39,7 +39,8 @@
                 console.log(`Body : ${blody}`);
 
                 
-                $("#title1").text("Hello");
+                $("#title1").text(title);
+                $("#date1").text(date);
                 $("#story1").html(blody);
 
 
@@ -58,7 +59,7 @@
         <a class="navbar-brand pt-3 pl-2" href="index.html">
           <img class="mylogo" height ="60" width = "60" src="logo.png"  alt="">
         </a>
-        <h5 class="subtitle navbar-text mr-auto">SHORT STORIES</h5>
+        <h5 class="subtitle navbar-text mr-auto">Works of Fiction</h5>
            
     </nav>
 
@@ -80,6 +81,7 @@
     </div>
     -->
 
+    
     <!-- BLOG POST SAMPLE-->
     <div class="container pt-4 do">
         <div class="row">
@@ -91,7 +93,7 @@
                     <h5 id="title1" class="mx-auto  post_title" ></p>
                 </div>
                 <div class="row mydate do">
-                    <p id="date1" class="mx-auto" style="font-style:italic; font-size:14px;">07/28/2020</p>
+                    <p id="date1" class="mx-auto" style="font-style:italic; font-size:14px;"></p>
                     
                 </div>
 
@@ -102,6 +104,9 @@
                 </div>
         </div>
         
+    </div>
+    <div class="row mt-3">
+        <p class="mx-auto">_______________</p>
     </div>
 
     <!-- BLOG POST SAMPLE-->

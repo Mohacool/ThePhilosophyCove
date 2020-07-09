@@ -46,7 +46,7 @@ p::-moz-selection {
 }
 
 .mydate{
-    margin-top:-25px;
+    margin-top:-10px;
 }
 .do{
     border:1px solid transparent;
@@ -80,7 +80,14 @@ a{
 }
 
 @media only screen and (max-width: 480px) {
-    .mytitle{
-        font-size:18px;
+    
+}
+
+@media only screen and (min-width:660px) and (max-width: 930px) {
+   
+
+    .subtitle{
+        transform:translate(-63px,40px) rotate(90deg);
+        transform-origin: bottom left;
     }
 }
