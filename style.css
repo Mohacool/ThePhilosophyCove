@@ -12,17 +12,22 @@ html,body{
     padding: 0;
 }
 
+
+
+
 .mycards{
     color:white;
     z-index:101;
 }
 
+.hide{
+    display:none;
+}
+
 .aboutcolor{
     background-color:rgb(255, 249, 234) !important;
 }
-.mycards.card1{
-    
-}
+
 
 .all{
     margin-top:20px;
@@ -131,6 +136,7 @@ html,body{
 
     .mycard:hover{
         -webkit-box-shadow: -1px 9px 40px -12px rgba(0,0,0,0.3);
+        box-shadow: -1px 9px 40px -12px rgba(0,0,0,0.3);
         filter:grayscale(100%);
         
         transition:0.5s ease;
@@ -159,4 +165,12 @@ html,body{
     
     
   
+}
+@media screen and (max-device-width: 436px) {
+
+    .mycards{
+        color:white;
+        z-index:101;
+        font-size:8vw;
+    }
 }
