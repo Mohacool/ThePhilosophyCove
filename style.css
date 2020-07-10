@@ -3,6 +3,7 @@ html,body{
     height:100%;
     width:100%;
     overflow-x: hidden;
+    background-color:rgb(255, 249, 234) !important;
     
 }
 
@@ -14,6 +15,10 @@ html,body{
 .mycards{
     color:white;
     z-index:101;
+}
+
+.aboutcolor{
+    background-color:rgb(255, 249, 234) !important;
 }
 .mycards.card1{
     
