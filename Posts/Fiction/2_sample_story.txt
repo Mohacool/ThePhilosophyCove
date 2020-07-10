@@ -2,8 +2,8 @@ This is a sample title
 
 06/22/67
 
-This is a sample story that is going to be really short
+This is my sample story, everything I type here will go in the body 
 
-I will include some spaces to see how it works
+Copy paste your story from the word document into here. 
 
-I wonder if it'll work properly, we will find out soon enough
+Dont forget to follow this pattern. Title then newline then date then story

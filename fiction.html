@@ -24,7 +24,7 @@
         $(document).ready(function () {
             //your code here
 
-            
+            // Get all the file names in include 
             $.get('/posts/fiction/include',{},function(content){
 
                 // Ex:  ["1_blah_blah","2_blee_blee"]
@@ -49,6 +49,7 @@
                         console.log(post_name);
                         console.log(post_number);
 
+                        // Create the post container element
                         $('body').append(`
 
                             <div class="container pt-4 do">
@@ -76,7 +77,8 @@
                             </div>
 
                         `);
-
+                        
+                        // Get the post .txt and add it to container element 
                         $.get(post_location,{},function(content){
 
                             let lines=content.split('\n');
