@@ -29,6 +29,7 @@ html,body{
 }
 
 
+
 .all{
     margin-top:20px;
 }
@@ -120,6 +121,23 @@ html,body{
     padding-top:5px;
 }
 
+@media screen and (min-width: 990px) and (max-width:1200px){
+
+    .mycards{
+        
+        font-size:25px;
+    }
+}
+
+@media screen and (min-width: 765px) and (max-width:990px){
+
+    .mycards{
+        
+        font-size:2.5vw;
+    }
+}
+
+
 @media screen and (min-device-width: 480px) {
 
    
@@ -169,8 +187,10 @@ html,body{
 @media screen and (max-device-width: 436px) {
 
     .mycards{
-        color:white;
-        z-index:101;
+        
         font-size:8vw;
     }
 }
+
+
+
