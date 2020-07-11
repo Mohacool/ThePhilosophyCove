@@ -20,6 +20,86 @@
     crossorigin="anonymous"></script>
     <script type="text/javascript">
 
+        // Load posts from post_number to post_number + amount
+        function load_posts(post_names, post_number,amount=3){
+
+            let last_post_index = post_number+ amount -1 ;
+
+            for (i=post_number;i<post_number+amount;i++){
+
+                let post_name = post_names[i];
+                let post_number = post_names[i].split('_')[0];
+                let post_location = `/posts/fiction/${post_name}.txt`;
+
+                // If its not an empty line
+                if (post_name.length!=0){
+
+                    console.log(post_name);
+                    console.log(post_number);
+
+                    // Create the post container element
+                    $('body').append(`
+
+                        <div class="container pt-4 do">
+                            <div class="row">
+
+                                <div class="col-md-2"></div>
+                                <div class="col-md-8 do">
+                                    
+                                    <div class="row do">
+                                        <h5 id="${"title"+post_number}" class="mx-auto  post_title" ></p>
+                                    </div>
+
+                                    <div class="row mydate do">
+                                        <p id="${"date"+post_number}" class="mx-auto" style="font-style:italic; font-size:14px;"></p>
+                                    </div>
+
+                                    <p id="${"story"+post_number}"></p>
+
+                                </div>
+                            </div>
+                        </div>
+
+                    `);
+                    
+                   
+                    // Don't include the break on the last post
+                    if (i!=last_post_index){
+                        $('body').append(`
+                            <div class="row mt-3">
+                                <p class="mx-auto">_______________</p>
+                            </div>
+                        `
+                        );
+                    }
+                    
+                    
+                    // Get the post .txt and add it to container element 
+                    $.get(post_location,{},function(content){
+
+                        let lines=content.split('\n');
+
+                        // Get title,date and body 
+                        let title = lines[0];
+                        let date = lines[2];
+                        let body = lines.slice(4,);
+
+                        // New body after adding line breaks
+                        let blody = body.map( element => element.replace('','<br>'));
+
+                        //console.log(`Title : ${title}`);
+                        //console.log(`Date : ${date}`);
+                        //console.log(`Body : ${blody}`);
+
+                        // append to divs
+                        $(`#title${post_number}`).text(title);
+                        $(`#date${post_number}`).text(date);
+                        $(`#story${post_number}`).html(blody);
+
+                    });
+                }
+            }
+        }
 
         $(document).ready(function () {
             //your code here
@@ -32,102 +112,38 @@
 
                 console.log(post_names);
 
-                // Loop through first 3 posts (all posts currently )
-                // Later put in function and load 3 at a time
-                // each time View more is clicked change i. for example i=3 -> 6
-                for (i=0;i<post_names.length;i++){
 
-                    let post_name = post_names[i];
-                    let post_number = post_names[i].split('_')[0];
-                    let post_location = `/posts/fiction/${post_name}.txt`;
-                    
+                load_posts(post_names,0,3); // Load the top 3 (amount=3 default)
+
+                //load_posts(post_names,3); // Load the next 3 
+
+                // Add a + sign after the last post
+
+                
 
 
-                    // If its not an empty line
-                    if (post_name.length!=0){
+                
 
-                        console.log(post_name);
-                        console.log(post_number);
+                
+                $('body').append(`
 
-                        // Create the post container element
-                        $('body').append(`
+                    <div class="row pt-4 pb-4">
 
-                            <div class="container pt-4 do">
-                                <div class="row">
-
-                                    <div class="col-md-2"></div>
-                                    <div class="col-md-8 do">
-                                        
-                                        <div class="row do">
-                                            <h5 id="${"title"+post_number}" class="mx-auto  post_title" ></p>
-                                        </div>
-
-                                        <div class="row mydate do">
-                                            <p id="${"date"+post_number}" class="mx-auto" style="font-style:italic; font-size:14px;"></p>
-                                        </div>
-
-                                        <p id="${"story"+post_number}"></p>
-
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="row mt-3">
-                                <p class="mx-auto">_______________</p>
-                            </div>
-
-                        `);
                         
-                        // Get the post .txt and add it to container element 
-                        $.get(post_location,{},function(content){
-
-                            let lines=content.split('\n');
-
-                            // Get title,date and body 
-                            let title = lines[0];
-                            let date = lines[2];
-                            let body = lines.slice(4,);
-
-
-
-                            // New body after adding line breaks
-                            let blody = body.map( element => element.replace('','<br>'));
-
-                            //console.log(`Title : ${title}`);
-                            //console.log(`Date : ${date}`);
-                            //console.log(`Body : ${blody}`);
-
-                            // append to divs
-                            $(`#title${post_number}`).text(title);
-                            $(`#date${post_number}`).text(date);
-                            $(`#story${post_number}`).html(blody);
-
-
-
-                        });
-
-
-                    }
+                        
+                        <img class="plus mx-auto" src="plus.svg">
+                        
+                       
                     
-
-                }
-
+                    </div>
+                    
+                    
+                    
+                `);
+                
+                
 
             });
-
-            
-            
-
-            
-
-            
-
-
-
-            
-
-            
-
 
         });
         
@@ -143,8 +159,15 @@
           <img class="mylogo" height ="60" width = "60" src="logo.png"  alt="">
         </a>
         <h5 class="subtitle navbar-text mr-auto">Works of Fiction</h5>
-           
+
+
+        <img class="navbar-brand filter" src="filter.svg "height="40px">
+
     </nav>
+    
+
+    
+    
 
    
     <!--
@@ -169,8 +192,8 @@
 
     
 
-    <!-- BLOG POST SAMPLE
-    <div class="container pt-4 do">
+    <!-- BLOG POST SAMPLE 
+    <div class="container  pt-4 do">
         <div class="row">
             <div class="col-md-2"></div>
 
@@ -179,24 +202,25 @@
                 <div class="row do">
                     <h5 class="mx-auto post_title" >A Walk in The Park </p>
                 </div>
+
                 <div class="row mydate do">
-                    <p class="mx-auto" style="font-style:italic; font-size:14px;">07/23/2020</p>
-                    
+                    <p class="mx-auto" style="font-style:italic; font-size:14px;">07/23/2020</p> 
                 </div>
 
                     <p>
                         Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed ultricies sapien non efficitur dapibus. Aenean convallis iaculis felis, at bibendum ex gravida vel. Phasellus nec arcu sed neque dapibus scelerisque vel in ante. Aenean imperdiet velit non mauris dignissim, eu condimentum massa aliquet. Aenean vel ultrices lectus. In feugiat tellus faucibus felis pellentesque, id bibendum nunc convallis. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; Donec posuere neque purus. In non enim odio. Quisque enim justo, efficitur non vulputate a, fringilla ut urna.
             
-            Donec in sem luctus mauris fermentum venenatis vitae ut neque. Mauris a hendrerit nunc. Donec pellentesque purus in ante suscipit imperdiet. Praesent lacinia, urna vitae congue varius, est leo commodo mauris, vel mollis mauris ligula a risus. Praesent nec enim quam. Ut ornare porttitor sodales. Praesent nisl urna, eleifend vel lectus sed, pharetra pretium leo. Maecenas facilisis neque at orci pulvinar vestibulum. Interdum et malesuada fames ac ante ipsum primis in faucibus. Nulla facilisi. Nulla aliquam, augue id ultrices imperdiet, enim ipsum vehicula risus, id fermentum turpis quam id lorem. Morbi vitae pretium lectus.
-            
-            Nullam tristique neque at viverra hendrerit. <br><br> Integer ut egestas erat. Maecenas quis ipsum ut est viverra imperdiet at vitae ante. Maecenas ac ullamcorper dui. Nunc eu pellentesque orci, id sagittis ex. Etiam eget quam ut enim hendrerit efficitur. Sed vehicula ex non tristique vehicula. Cras felis orci, pellentesque sit amet volutpat sed, gravida nec felis. Suspendisse tincidunt malesuada ornare. In tincidunt tellus risus, ac blandit nibh iaculis vitae. Integer ullamcorper augue id odio pulvinar ultrices. Curabitur et egestas dui. Ut erat risus, venenatis eget commodo a, scelerisque in tellus. Vivamus dapibus luctus maximus. In eget odio ante.
-            
-            Cras tempus, metus vel viverra feugiat, est leo ornare leo, quis dignissim nisl odio porta enim. Pellentesque sit amet dui quis libero pellentesque maximus faucibus vel dolor. Nullam sit amet ullamcorper ante. Sed condimentum ante ac faucibus pulvinar. Nullam arcu velit, faucibus sed mauris elementum, blandit semper justo. Nunc erat est, placerat at facilisis sed, condimentum nec quam. Sed a condimentum nibh. Sed vulputate tincidunt metus sit amet condimentum. Vivamus finibus viverra lacus. Nam vel nisl sollicitudin, tincidunt purus a, tincidunt nisi. Nullam id eros imperdiet, rhoncus sapien nec, pulvinar urna. Donec mattis purus eget urna vestibulum porttitor.
-            
-            Nulla euismod scelerisque faucibus. <br><br> Praesent ut ante dolor. Pellentesque porttitor, arcu ac euismod lobortis, velit tortor imperdiet ante, sit amet tempus sapien nulla sed lectus. Phasellus eu finibus elit. Vestibulum aliquet tincidunt efficitur. Proin at gravida est, sed malesuada enim. Ut in egestas nisi. Quisque aliquet ac nibh vel suscipit.
+                        Donec in sem luctus mauris fermentum venenatis vitae ut neque. Mauris a hendrerit nunc. Donec pellentesque purus in ante suscipit imperdiet. Praesent lacinia, urna vitae congue varius, est leo commodo mauris, vel mollis mauris ligula a risus. Praesent nec enim quam. Ut ornare porttitor sodales. Praesent nisl urna, eleifend vel lectus sed, pharetra pretium leo. Maecenas facilisis neque at orci pulvinar vestibulum. Interdum et malesuada fames ac ante ipsum primis in faucibus. Nulla facilisi. Nulla aliquam, augue id ultrices imperdiet, enim ipsum vehicula risus, id fermentum turpis quam id lorem. Morbi vitae pretium lectus.
+                        
+                        Nullam tristique neque at viverra hendrerit. <br><br> Integer ut egestas erat. Maecenas quis ipsum ut est viverra imperdiet at vitae ante. Maecenas ac ullamcorper dui. Nunc eu pellentesque orci, id sagittis ex. Etiam eget quam ut enim hendrerit efficitur. Sed vehicula ex non tristique vehicula. Cras felis orci, pellentesque sit amet volutpat sed, gravida nec felis. Suspendisse tincidunt malesuada ornare. In tincidunt tellus risus, ac blandit nibh iaculis vitae. Integer ullamcorper augue id odio pulvinar ultrices. Curabitur et egestas dui. Ut erat risus, venenatis eget commodo a, scelerisque in tellus. Vivamus dapibus luctus maximus. In eget odio ante.
+                        
+                        Cras tempus, metus vel viverra feugiat, est leo ornare leo, quis dignissim nisl odio porta enim. Pellentesque sit amet dui quis libero pellentesque maximus faucibus vel dolor. Nullam sit amet ullamcorper ante. Sed condimentum ante ac faucibus pulvinar. Nullam arcu velit, faucibus sed mauris elementum, blandit semper justo. Nunc erat est, placerat at facilisis sed, condimentum nec quam. Sed a condimentum nibh. Sed vulputate tincidunt metus sit amet condimentum. Vivamus finibus viverra lacus. Nam vel nisl sollicitudin, tincidunt purus a, tincidunt nisi. Nullam id eros imperdiet, rhoncus sapien nec, pulvinar urna. Donec mattis purus eget urna vestibulum porttitor.
+                        
+                        Nulla euismod scelerisque faucibus. <br><br> Praesent ut ante dolor. Pellentesque porttitor, arcu ac euismod lobortis, velit tortor imperdiet ante, sit amet tempus sapien nulla sed lectus. Phasellus eu finibus elit. Vestibulum aliquet tincidunt efficitur. Proin at gravida est, sed malesuada enim. Ut in egestas nisi. Quisque aliquet ac nibh vel suscipit.
                     </p>
 
-                </div>
+            </div>
+            
         </div>
         
     </div>
@@ -205,4 +229,5 @@
 
 
 </body>
+
 </html>
