@@ -68,7 +68,7 @@
                 console.log("loading i="+i);
                 let post_name = post_names[i];
                 let post_number = post_names[i].split('_')[0];
-                let post_location = `/Posts/Fiction/${post_name}.txt`;
+                let post_location = `./Posts/Fiction/${post_name}.txt`;
 
                 // If its not an empty line
                 if (post_name.length!=0){
@@ -159,7 +159,7 @@
                 
 
             // Get all the file names in include 
-            $.get('/Posts/Fiction/include',{},function(content){
+            $.get('./Posts/Fiction/include',{},function(content){
 
                 // Ex:  ["1_blah_blah","2_blee_blee"]
                 var post_names=content.split('\n');
