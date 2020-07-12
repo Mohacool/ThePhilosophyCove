@@ -40,7 +40,7 @@
             //your code here
 
             // Get all the file names in include 
-            $.get('/Posts/Philosophy/include',{},function(content){
+            $.get('./Posts/Philosophy/include',{},function(content){
 
                 // Ex:  ["1_blah_blah","2_blee_blee"]
                 let post_names=content.split('\n');
@@ -54,7 +54,7 @@
 
                     let post_name = post_names[i];
                     let post_number = post_names[i].split('_')[0];
-                    let post_location = `/Posts/Philosophy/${post_name}.txt`;
+                    let post_location = `./Posts/Philosophy/${post_name}.txt`;
                     
 
 
