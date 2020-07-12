@@ -68,7 +68,7 @@
                 console.log("loading i="+i);
                 let post_name = post_names[i];
                 let post_number = post_names[i].split('_')[0];
-                let post_location = `/posts/fiction/${post_name}.txt`;
+                let post_location = `posts/fiction/${post_name}.txt`;
 
                 // If its not an empty line
                 if (post_name.length!=0){
@@ -139,7 +139,7 @@
                     
                 }
             }
-            
+
             // Add a + sign after the last post
             $('body').append(`
                 <div id="plusrow" class="row pt-4 pb-4">
@@ -159,7 +159,7 @@
                 
 
             // Get all the file names in include 
-            $.get('/posts/fiction/include',{},function(content){
+            $.get('posts/fiction/include',{},function(content){
 
                 // Ex:  ["1_blah_blah","2_blee_blee"]
                 var post_names=content.split('\n');
@@ -188,7 +188,7 @@
 <body>
     <nav class="navbar sticky-top navbar-light desktop">
         <a class="navbar-brand pt-3 pl-2" href="index.html">
-          <img class="mylogo" height ="60" width = "60" src="logo.png"  alt="">
+          <img class="mylogo" height ="60" width = "60" src="logoNoText.png"  alt="">
         </a>
         <h5 class="subtitle navbar-text mr-auto">Works of Fiction</h5>
 
