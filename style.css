@@ -137,6 +137,13 @@ html,body{
     }
 }
 
+@media screen and (min-width: 480px) and (max-width:767px){
+
+    .pad-card{
+        margin-top:-40px;
+    }
+}
+
 
 @media screen and (min-device-width: 480px) {
 
@@ -189,6 +196,9 @@ html,body{
     .mycards{
         
         font-size:8vw;
+    }
+    .mobile_title{
+        font-size:5vw;
     }
 }
 
