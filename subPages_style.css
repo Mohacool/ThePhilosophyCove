@@ -16,18 +16,18 @@ html,body{
     margin-top:-70px;
 }
 
-.plus{
+#plus{
     font-size:40px;
     cursor:pointer;
-    height:30px;
+    height:25px;
     z-index:105;
 }
 
-.plus:hover{
+#plus:hover{
     /*
     transform:rotate(90deg);
     transform-origin:center;
-    transition: 1s ease;
+    transition: 0.2s ease;
     */
 }
 
