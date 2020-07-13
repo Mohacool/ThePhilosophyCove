@@ -23,6 +23,40 @@
         
         var global_max = 3; // # of posts on the page
         var all_post_names; //
+        var all_post_dates = [];
+
+
+        function collapse(){
+
+            //console.log(all_post_names);
+
+            // Clear all the posts
+            document.getElementById("posts").outerHTML = "";
+
+            
+            console.log("I need it here"+ all_post_dates);
+        }
+
+        function getDates(){
+            // Get all the post dates, push into all_post_dates
+            for (i=0;i<all_post_names.length;i++){
+
+                $.get(`./Posts/Fiction/${all_post_names[i]}.txt`,{},function(content){
+
+                    // Convert the dates into Date type
+                    var date = new Date(content.split('\n')[2]);
+                    
+                    
+                    // Extract [Month,Day,Year] and push to all_post_dates
+                    all_post_dates.push(date.toString().split(" ").slice(1,4));
+
+                });
+            }
+
+        }
+       
+        
+        
 
         function plus(){
 
@@ -45,11 +79,6 @@
 
             // Increase total # of posts
             global_max +=3;
-            
-            
-            
-
-            
 
         }
         
@@ -77,7 +106,7 @@
                     console.log(post_number);
 
                     // Create the post container element
-                    $('body').append(`
+                    $('#posts').append(`
 
                         <div class="container pt-4 do">
                             <div class="row">
@@ -104,7 +133,7 @@
                    
                     // Don't include the line break on the last post
                     if (i!=last_post_index){
-                        $('body').append(`
+                        $('#posts').append(`
                             <div class="row mt-3">
                                 <p class="mx-auto">_______________</p>
                             </div>
@@ -141,7 +170,7 @@
             }
 
             // Add a + sign after the last post
-            $('body').append(`
+            $('#posts').append(`
                 <div id="plusrow" class="row pt-4 pb-4">
 
 
@@ -156,7 +185,7 @@
 
         $(document).ready(function () {
 
-                
+            
 
             // Get all the file names in include 
             $.get('./Posts/Fiction/include',{},function(content){
@@ -165,8 +194,16 @@
                 var post_names=content.split('\n');
                 console.log(post_names);
 
+                
+
 
                 load_posts(post_names,0,3); // Load the top 3 (amount=3 default)
+
+                
+                getDates();
+
+                //console.log(all_post_dates);
+                
             
 
                 
@@ -193,13 +230,15 @@
         <h5 class="subtitle navbar-text mr-auto">Works of Fiction</h5>
 
 
-        <img class="navbar-brand filter" src="filter.svg "height="40px">
+        <img class="navbar-brand filter" src="filter.svg "height="40px" onclick="collapse()">
 
     </nav>
     
 
     
-    
+    <div id="posts">
+
+    </div>
 
    
     <!--
