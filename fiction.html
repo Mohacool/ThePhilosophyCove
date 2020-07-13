@@ -25,36 +25,84 @@
         var all_post_names; //
         var all_post_dates = [];
 
+        // Get full month name. Ex: 'aug' -> 'August'
+        function fullMonthName(short_month){
+            
+            var months = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+            for (x=0;i<months.length;x++){
+                if (short_month.toLowerCase()==months[x].slice(0,3).toLowerCase()){
+                    return months[x];
+                }
+            }
+        }
 
         function collapse(){
 
             //console.log(all_post_names);
-
+            var months_added = [];
+            var years_added = [];
             // Clear all the posts
             document.getElementById("posts").outerHTML = "";
 
-            
-            console.log("I need it here"+ all_post_dates);
-            
-            /*
-            document.body.innerHTML += `
-                <div class="container">
-                    <div class="row" style="margin-top:50px">
+            //console.log(all_post_dates);
 
-                        <div class="col-2" style="border:1px solid red"></div>
-                        <div class="col" style="border:1px solid red">
-                            hey there
+            // Sort 
+            all_post_dates.sort((a, b) => new Date(a) - new Date(b))
+
+            for (i=0;i<all_post_dates.length;i++){
+                let month = all_post_dates[i].split(" ")[0];
+                let day = all_post_dates[i].split(" ")[1];
+                let year = all_post_dates[i].split(" ")[2];
+
+                month=fullMonthName(month);
+
+                // If the month isn't added add it
+                if (!(months_added.includes(month))){
+                    months_added.push(month);
+
+                    document.getElementById("collapsed_cards").innerHTML+=`
+
+                        <div class="row">
+                            <h1 class="mx-auto">${month}</h1>
                         </div>
-                        <div class="col-2" style="border:1px solid red"></div>
+
+                    `;
+
+                }
+                document.getElementById("collapsed_cards").innerHTML+=`
+                    <div id="collapsed_story${i}"class="row pb-1">
+
+                        <div class="col-md-2 red"></div>
+                        <div class="col-md-8 red middle">
+
+                            <div class="card mycards pt-2 pb-2">
+                                <span>
+
+                                    <p class="my-auto float-left">${all_post_names[i]}</p>
+                                    <p class="my-auto float-right">${all_post_dates[i]}</p>
+
+                                </span> 
+                            </div>
+
+                        </div>
+                        <div class="col-md-2 red" ></div>
 
 
                     </div>
-                    
-                    
-                </div>
+
+
+                    `;
+
+                //console.log(all_post_dates[i]);
+            }
+            //console.log(months_added);
             
-            `;
-            */
+            
+            //console.log("I need it here"+ all_post_dates);
+            
+            
+            
+            
             
         }
 
@@ -69,7 +117,7 @@
                     
                     
                     // Extract [Month,Day,Year] and push to all_post_dates
-                    all_post_dates.push(date.toString().split(" ").slice(1,4));
+                    all_post_dates.push(date.toString().split(" ").slice(1,4).join(" "));
 
                 });
             }
@@ -207,7 +255,7 @@
 
         $(document).ready(function () {
 
-            collapse();
+            //collapse();
             
 
             // Get all the file names in include 
@@ -320,50 +368,15 @@
     </div>
     -->
     
-    <div class="container">
+    <div id="collapsed_cards" class="container">
         <div class="row" style="margin-top:50px">
-            <h1 class="mx-auto">July</h1>
         </div>
+
         
-        <div class="row pb-1">
+        
+        
 
-            <div class="col-md-2 red"></div>
-            <div class="col-md-8 red middle">
-                <div class="card mycards pt-2 pb-2">
-                    <span>
-
-                        <p class="my-auto float-left">A Walk in The Park</p>
-                        <p class="my-auto float-right">07/22/2018</p>
-
-                    </span>
-                    
-                    
-                </div>
-            </div>
-            <div class="col-md-2 red" ></div>
-
-
-        </div>
-
-        <div class="row">
-
-            <div class="col-md-2 red"></div>
-            <div class="col-md-8 red middle">
-                <div class="card mycards pt-2 pb-2">
-                    <span>
-
-                        <p class="my-auto float-left">A Walk in The Park</p>
-                        <p class="my-auto float-right">07/22/2018</p>
-
-                    </span>
-                    
-                    
-                </div>
-            </div>
-            <div class="col-md-2 red" ></div>
-
-
-        </div>
+        
         
         
         
