@@ -23,6 +23,30 @@ html,body{
     z-index:105;
 }
 
+.in{
+    display:inline-block;
+}
+.red{
+    border:1px solid red;
+    border:1px solid transparent;
+}
+.mycards{
+    background-color:rgb(253, 234, 194) !important;
+
+    border-radius:2px !important;
+    
+}
+.mycards:hover{
+    -webkit-box-shadow: -1px 9px 20px -12px rgba(0,0,0,0.3);
+    box-shadow: -1px 9px 20px -12px rgba(0,0,0,0.3);
+    cursor:pointer;
+    background-color:rgb(250, 232, 188) !important;
+    
+    
+    transition:0.2s ease;
+    
+}
+
 #plus:hover{
     /*
     transform:rotate(90deg);
