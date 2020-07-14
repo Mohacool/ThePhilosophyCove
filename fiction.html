@@ -24,6 +24,8 @@
         var global_max = 3; // # of posts on the page
         var all_post_names; //
         var all_post_dates = [];
+        var collapsed = false;
+        var first_time = true;
 
         // Get full month name. Ex: 'aug' -> 'August'
         function fullMonthName(short_month){
@@ -37,64 +39,85 @@
         }
 
         function collapse(){
+            if (collapsed==true){
+                document.getElementById("posts").style.display = "block";
+                document.getElementById("collapsed_cards").style.display = "none";
+                collapsed=false;
+            }
+            else if (collapsed==false){
 
-            //console.log(all_post_names);
-            var months_added = [];
-            var years_added = [];
-            // Clear all the posts
-            document.getElementById("posts").outerHTML = "";
+                //console.log(all_post_names);
+                var months_added = [];
+                var years_added = [];
+                // Clear all the posts
+                document.getElementById("posts").style.display = "none";
 
-            //console.log(all_post_dates);
+                // Show the collapsed cards
+                document.getElementById("collapsed_cards").style.display = "block";
 
-            // Sort 
-            all_post_dates.sort((a, b) => new Date(a) - new Date(b))
 
-            for (i=0;i<all_post_dates.length;i++){
-                let month = all_post_dates[i].split(" ")[0];
-                let day = all_post_dates[i].split(" ")[1];
-                let year = all_post_dates[i].split(" ")[2];
+                //document.getElementById("posts").outerHTML = "";
 
-                month=fullMonthName(month);
+                //console.log(all_post_dates);
 
-                // If the month isn't added add it
-                if (!(months_added.includes(month))){
-                    months_added.push(month);
+                // Sort 
+                all_post_dates.sort((a, b) => new Date(a) - new Date(b))
 
-                    document.getElementById("collapsed_cards").innerHTML+=`
+                if (first_time==true){
+                    for (i=0;i<all_post_dates.length;i++){
+                    let month = all_post_dates[i].split(" ")[0];
+                    let day = all_post_dates[i].split(" ")[1];
+                    let year = all_post_dates[i].split(" ")[2];
 
-                        <div class="row">
-                            <h1 class="mx-auto">${month}</h1>
-                        </div>
+                    month=fullMonthName(month);
 
-                    `;
+                    // If the month isn't added add it
+                    if (!(months_added.includes(month))){
+                        months_added.push(month);
 
-                }
-                document.getElementById("collapsed_cards").innerHTML+=`
-                    <div id="collapsed_story${i}"class="row pb-1">
+                        document.getElementById("collapsed_cards").innerHTML+=`
 
-                        <div class="col-md-2 red"></div>
-                        <div class="col-md-8 red middle">
-
-                            <div class="card mycards pt-2 pb-2">
-                                <span>
-
-                                    <p class="my-auto float-left">${all_post_names[i]}</p>
-                                    <p class="my-auto float-right">${all_post_dates[i]}</p>
-
-                                </span> 
+                            <div class="row">
+                                <h1 class="mx-auto">${month}</h1>
                             </div>
 
+                        `;
+
+                    }
+                    document.getElementById("collapsed_cards").innerHTML+=`
+                        <div id="collapsed_story${i}"class="row pb-1">
+
+                            <div class="col-md-2 red"></div>
+                            <div class="col-md-8 red middle">
+
+                                <div class="card mycards pt-2 pb-2">
+                                    <span>
+
+                                        <p class="my-auto float-left">${all_post_names[i]}</p>
+                                        <p class="my-auto float-right">${all_post_dates[i]}</p>
+
+                                    </span> 
+                                </div>
+
+                            </div>
+                            <div class="col-md-2 red" ></div>
+
+
                         </div>
-                        <div class="col-md-2 red" ></div>
 
 
-                    </div>
+                        `;
 
+                    //console.log(all_post_dates[i]);
+                }
+                }
+                
 
-                    `;
+                collapsed=true;
 
-                //console.log(all_post_dates[i]);
             }
+            first_time=false;
+            
             //console.log(months_added);
             
             
@@ -133,12 +156,15 @@
             document.getElementById("plusrow").outerHTML = "";
 
             // Add the post break -------
+
+            /*
             document.body.innerHTML += `
                 <div class="row mt-3">
                     <p class="mx-auto">_______________</p>
                 </div>
             
             `;
+            */
             
             
             // Load 3 more posts
