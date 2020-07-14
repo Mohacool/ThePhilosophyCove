@@ -26,11 +26,141 @@
         var all_post_dates = [];
         var collapsed = false;
         var first_time = true;
+        var all =[];
+
+
+        function add(arr){
+                console.log("add is running");
+                all.push(arr);
+        }
+
+        function load_all(post_names){
+
+            all_post_names = post_names.valueOf();
+            
+
+            for (i=0;i<post_names.length;i++){
+
+                let post_name = post_names[i];
+                let post_number = post_names[i].split('_')[0];
+                let post_location = `./Posts/Fiction/${post_name}.txt`;
+                console.log("post+"+post_location);
+                
+                // If its not an empty line
+                if (post_name.length!=0){
+                    //all.push([post_number])
+
+                    // Get the post .txt and add it to container element 
+                    $.ajax({
+                    url: post_location,
+                    dataType: "text",
+                    async: false,
+                    success: (content) => {
+
+
+                        let lines=content.split('\n');
+
+                        // Get title,date and body 
+                        let title = lines[0];
+                        let date = lines[2];
+                        let body = lines.slice(4,);
+                        console.log("==========PUTTING"+post_number);
+
+                        // New body after adding line breaks
+                        let blody = body.map( element => element.replace('','<br>'));
+                        var display="block";
+                        var show_line_break = "inline-block";
+                        if (post_number>3){
+                            display="none";
+                        }
+                        if (post_number==3){
+                            show_line_break = "none";
+                        }
+
+                        $('#posts').append(`
+
+                            <div id=post${post_number} class="container pt-4 do" style="display:${display}">
+                                <div class="row">
+
+                                    <div class="col-md-2"></div>
+                                    <div class="col-md-8 do">
+                                        
+                                        <div class="row do">
+                                            <h5 id="${"title"+post_number}" class="mx-auto  post_title" ></p>
+                                        </div>
+
+                                        <div class="row mydate do">
+                                            <p id="${"date"+post_number}" class="mx-auto" style="font-style:italic; font-size:14px;"></p>
+                                        </div>
+
+                                        <p id="${"story"+post_number}"></p>
+
+                                    </div>
+                                </div>
+
+                                <div class="row mt-3">
+                                    <p id=linebreak${post_number} class="mx-auto" style=display:${show_line_break}>_______________</p>
+                                </div>
+                            </div>
+                            
+
+                        `);
+                        // only show the first 3
+                        console.log(post_number);
+                        console.log("PUTTING"+post_number)
+
+                        $(`#title${post_number}`).text(title);
+                        $(`#date${post_number}`).text(date);
+                        $(`#story${post_number}`).html(blody);
+
+                        // Add all the stories to global list all
+                        add([title,date,blody]);
+
+                        /*
+                        //later if its less than 3
+                        if (post_number<global_max){
+
+                            $('#posts').append(`
+                                <div class="row mt-3">
+                                    <p class="mx-auto">_______________</p>
+                                </div>
+                            `
+                            );
+
+                        }
+                        */
+                        
+                        
+                        
+
+                    }
+                    });
+                    
+                    
+                }
+                
+            }
+            // Add a + at the end of the first 3
+            $('#posts').append(`
+                <div id="plusrow" class="row pt-4 pb-4">
+
+                    <img id="plus" class="mx-auto" src="plus.svg" onclick="plus()">
+                    
+                </div>
+            `);
+            
+            //console.log("all is"+all);
+        }
 
         // Get full month name. Ex: 'aug' -> 'August'
         function fullMonthName(short_month){
             
             var months = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+
+            if (months.includes(short_month)){
+                return short_month;
+            }
+
             for (x=0;i<months.length;x++){
                 if (short_month.toLowerCase()==months[x].slice(0,3).toLowerCase()){
                     return months[x];
@@ -39,77 +169,89 @@
         }
 
         function collapse(){
+
             if (collapsed==true){
+                console.log("collapsed is true");
                 document.getElementById("posts").style.display = "block";
                 document.getElementById("collapsed_cards").style.display = "none";
                 collapsed=false;
             }
             else if (collapsed==false){
+                console.log("collapsed is false");
 
                 //console.log(all_post_names);
                 var months_added = [];
                 var years_added = [];
                 // Clear all the posts
                 document.getElementById("posts").style.display = "none";
+                console.log("SET: posts display:none");
+                
 
                 // Show the collapsed cards
                 document.getElementById("collapsed_cards").style.display = "block";
-
+                console.log("SET: collapsed cards display:block");
 
                 //document.getElementById("posts").outerHTML = "";
 
                 //console.log(all_post_dates);
 
-                // Sort 
-                all_post_dates.sort((a, b) => new Date(a) - new Date(b))
-
+                
                 if (first_time==true){
-                    for (i=0;i<all_post_dates.length;i++){
-                    let month = all_post_dates[i].split(" ")[0];
-                    let day = all_post_dates[i].split(" ")[1];
-                    let year = all_post_dates[i].split(" ")[2];
 
-                    month=fullMonthName(month);
 
-                    // If the month isn't added add it
-                    if (!(months_added.includes(month))){
-                        months_added.push(month);
+                    for (i=0;i<all.length;i++){
+                        console.log("i="+i);
 
-                        document.getElementById("collapsed_cards").innerHTML+=`
+                        let date = all[i][1].split(" ");
+                        let month = date[0];
+                        let day = date[1];
+                        let year = date[2];
 
-                            <div class="row">
-                                <h1 class="mx-auto">${month}</h1>
-                            </div>
 
-                        `;
+                        month=fullMonthName(month);
 
-                    }
-                    document.getElementById("collapsed_cards").innerHTML+=`
-                        <div id="collapsed_story${i}"class="row pb-1">
+                        console.log(month);
+                        // If the month isn't added add it
+                        if (!(months_added.includes(month))){
 
-                            <div class="col-md-2 red"></div>
-                            <div class="col-md-8 red middle">
+                            console.log("adding...");
+                            months_added.push(month);
 
-                                <div class="card mycards pt-2 pb-2">
-                                    <span>
+                            document.getElementById("collapsed_cards").innerHTML+=`
 
-                                        <p class="my-auto float-left">${all_post_names[i]}</p>
-                                        <p class="my-auto float-right">${all_post_dates[i]}</p>
-
-                                    </span> 
+                                <div class="row">
+                                    <h1 class="mx-auto">${month}</h1>
                                 </div>
 
+                            `;
+
+                        }
+                        document.getElementById("collapsed_cards").innerHTML+=`
+                            <div id="collapsed_story${i}"class="row pb-1">
+
+                                <div class="col-md-2 red"></div>
+                                <div class="col-md-8 red middle">
+
+                                    <div class="card mycards pt-2 pb-2">
+                                        <span>
+
+                                            <p class="my-auto float-left">${all[i][0]}</p>
+                                            <p class="my-auto float-right">${all[i][1]}</p>
+
+                                        </span> 
+                                    </div>
+
+                                </div>
+                                <div class="col-md-2 red" ></div>
+
+
                             </div>
-                            <div class="col-md-2 red" ></div>
 
 
-                        </div>
+                            `;
 
-
-                        `;
-
-                    //console.log(all_post_dates[i]);
-                }
+                        //console.log(all_post_dates[i]);
+                    }
                 }
                 
 
@@ -123,9 +265,7 @@
             
             //console.log("I need it here"+ all_post_dates);
             
-            
-            
-            
+  
             
         }
 
@@ -155,28 +295,100 @@
             // Remove the + sign
             document.getElementById("plusrow").outerHTML = "";
 
-            // Add the post break -------
+            
 
-            /*
-            document.body.innerHTML += `
-                <div class="row mt-3">
-                    <p class="mx-auto">_______________</p>
-                </div>
-            
-            `;
-            */
             
             
+            show_posts();
+
             // Load 3 more posts
-            load_posts(all_post_names,global_max,3);
-
-
+            //put_posts(global_max,global_max+3);
 
             // Increase total # of posts
             global_max +=3;
 
         }
+
+        // Show 3 more posts
+        function show_posts(amount=3){
+
+            document.getElementById(`post${global_max}`).style.display="block";
+            document.getElementById(`linebreak${global_max}`).style.display="block";
+            
+            for (p=global_max+1;p<global_max+amount+1;p++){
+                
+                document.getElementById(`post${p}`).style.display = "block";
+                //console.log("Show post"+p);
+            }
+
+            document.getElementById(`linebreak${global_max+amount}`).style.display="none";
+            $('#posts').append(`
+                    <div id="plusrow" class="row pt-4 pb-4">
+
+
+                        <img id="plus" class="mx-auto" src="plus.svg" onclick="plus()">
+                        
+
+                    </div>
+            `);
+
+        }
+
         
+
+        function put_posts(start,amount){
+            //console.log("ALL IS" + all);
+            console.log("put posts is running");
+            let last_post_index = amount-1;
+        
+            for (z=start;z<amount;z++){
+                let post_number = z+1;
+                
+                let title = all[z][0];
+                let date = all[z][1];
+                let body = all[z][2];
+
+                $('#posts').append(`
+
+                        <div class="container pt-4 do">
+                            <div class="row">
+
+                                <div class="col-md-2"></div>
+                                <div class="col-md-8 do">
+                                    
+                                    <div class="row do">
+                                        <h5 id="${"title"+post_number}" class="mx-auto  post_title" ></p>
+                                    </div>
+
+                                    <div class="row mydate do">
+                                        <p id="${"date"+post_number}" class="mx-auto" style="font-style:italic; font-size:14px;"></p>
+                                    </div>
+
+                                    <p id="${"story"+post_number}"></p>
+
+                                </div>
+                            </div>
+                        </div>
+
+                `);
+                $(`#title${post_number}`).text(title);
+                $(`#date${post_number}`).text(date);
+                $(`#story${post_number}`).html(body);
+
+                
+            }
+
+            // Add a + sign after the last post
+            $('#posts').append(`
+                    <div id="plusrow" class="row pt-4 pb-4">
+
+
+                        <img id="plus" class="mx-auto" src="plus.svg" onclick="plus()">
+                        
+
+                    </div>
+            `);
+        }
 
         // Load posts from post_number to post_number + amount
         function load_posts(post_names, post_number,amount=3){
@@ -280,36 +492,35 @@
 
 
         $(document).ready(function () {
-
-            //collapse();
+           
             
-
+            
+               
             // Get all the file names in include 
             $.get('./Posts/Fiction/include',{},function(content){
 
                 // Ex:  ["1_blah_blah","2_blee_blee"]
                 var post_names=content.split('\n');
-                console.log(post_names);
+                //console.log(post_names);
 
                 
-
-
-                load_posts(post_names,0,3); // Load the top 3 (amount=3 default)
-
+                load_all(post_names);
                 
-                getDates();
+                //put_posts(0,3);
+                //load_posts(post_names,0,3); // Load the top 3 (amount=3 default)
+                
+                
+                //getDates();
 
                 //console.log(all_post_dates);
                 
             
-
-                
-
-                //load_posts(post_names,3); // Load the next 3 
-
-                
+            });
+            //console.log("all is+" +all);
+            // Add array to all (master list of all stories)
             
-            });    
+            
+              
 
         });
         
