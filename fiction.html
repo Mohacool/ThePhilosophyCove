@@ -211,6 +211,25 @@
                         let day = date[1];
                         let year = date[2];
 
+                        // If the year has already been added don't add it
+                        if (!(years_added.includes(year))){
+
+                            // Dont include the current year
+                            if (!(year==new Date().getFullYear())){
+                            }
+                            
+                            document.getElementById("collapsed_cards").innerHTML+=`
+
+                            <div class="row">
+                                <h1 style="font-size:150px;color:gray" class="mx-auto">${year}</h1>
+                            </div>
+
+                            `;
+                            years_added.push(year);
+
+                        }
+                        
+
 
                         month=fullMonthName(month);
 
