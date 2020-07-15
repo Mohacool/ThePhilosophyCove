@@ -38,7 +38,7 @@
 
             all_post_names = post_names.valueOf();
             
-
+            post_names.reverse();
             for (i=0;i<post_names.length;i++){
 
                 let post_name = post_names[i];
@@ -70,10 +70,14 @@
                         let blody = body.map( element => element.replace('','<br>'));
                         var display="block";
                         var show_line_break = "inline-block";
-                        if (post_number>3){
+
+                        let cutoff = post_names.length - 3 + 1;
+
+                        if (post_number<cutoff){
                             display="none";
                         }
-                        if (post_number==3){
+
+                        if (post_number==cutoff || post_number==1){
                             show_line_break = "none";
                         }
 
@@ -195,7 +199,7 @@
 
                 //console.log(all_post_dates);
 
-                
+                //all.reverse();
                 if (first_time==true){
 
 
@@ -312,16 +316,27 @@
         // Show 3 more posts
         function show_posts(amount=3){
 
-            document.getElementById(`post${global_max}`).style.display="block";
-            document.getElementById(`linebreak${global_max}`).style.display="block";
+            //document.getElementById(`post${global_max}`).style.display="block";
+            let pos = all.length - global_max;
+
+            // Replace + with line break
+            document.getElementById(`linebreak${pos+1}`).style.display="block";
             
-            for (p=global_max+1;p<global_max+amount+1;p++){
+            console.log(global_max + +1);
+            console.log(global_max+ +amount+1);
+
+            
+            
+            for (p=pos;p>pos-amount;p--){
                 
                 document.getElementById(`post${p}`).style.display = "block";
                 //console.log("Show post"+p);
             }
+            
+            console.log(pos);
+            console.log(pos-amount);
+            document.getElementById(`linebreak${pos-amount+1}`).style.display="none";
 
-            document.getElementById(`linebreak${global_max+amount}`).style.display="none";
             $('#posts').append(`
                     <div id="plusrow" class="row pt-4 pb-4">
 
