@@ -5,6 +5,7 @@ html,body{
     overflow-x: hidden;
     background-color:rgb(255, 249, 234) !important;
     
+
 }
 
 * {
@@ -16,12 +17,16 @@ html,body{
     margin-top:-70px;
 }
 
+
+
 #plus{
     font-size:40px;
     cursor:pointer;
     height:25px;
     z-index:105;
+    
 }
+
 
 .in{
     display:inline-block;
