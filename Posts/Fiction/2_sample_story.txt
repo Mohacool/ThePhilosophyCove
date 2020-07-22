@@ -1,9 +1,0 @@
-This is a sample title
-
-August 15 2020
-
-This is my sample story, everything I type here will go in the body 
-
-Copy paste your story from the word document into here. 
-
-Dont forget to follow this pattern. Title then newline then date then story

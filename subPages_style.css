@@ -36,16 +36,25 @@ html,body{
     border:1px solid transparent;
 }
 .mycards{
-    background-color:rgb(253, 234, 194) !important;
+    /* background-color:rgb(255, 255, 255) !important;  */
+    /* background-color:rgba(202, 150, 54, 0.185) !important; */
+    background-color:rgba(158, 154, 145, 0.185) !important;
 
+    /* height:50px; */
+    
     border-radius:2px !important;
+    border:none !important;
+    border:.25px solid transparent !important;
+    
     
 }
 .mycards:hover{
+    /* background-color:rgba(170, 228, 233, 0.692) !important; */
     -webkit-box-shadow: -1px 9px 20px -12px rgba(0,0,0,0.3);
-    box-shadow: -1px 9px 20px -12px rgba(0,0,0,0.3);
+    /* box-shadow: -1px 9px 20px -12px rgba(0,0,0,0.3); */
     cursor:pointer;
-    background-color:rgb(250, 232, 188) !important;
+    /*background-color:rgb(250, 232, 188) !important; */
+    /* border:.25px solid gray !important; */
     
     
     transition:0.2s ease;
@@ -79,6 +88,27 @@ html,body{
 
 .filter{
     cursor:pointer;
+    z-index:10;
+}
+.circle{
+  height: 50px;
+  width: 50px;
+  background-color: #bbb;
+  border-radius: 50%;
+  position:fixed;
+  bottom:30px;
+  right:40px;
+  cursor:pointer;
+  z-index:1000;
+}
+.bulbfoot{
+    position:relative;
+    right:10px;
+    top:10px;
+    
+    
+    
+    
 }
 
 
@@ -116,7 +146,25 @@ p{
 }
 
 
+.mymovelogo{
+    margin-top:-150px;
+    z-index:-1000;
+}
+.stick{
+    position:unset;
+    top:unset;
 
+}
+
+.month{
+    
+    font-size:50px;
+    
+}
+
+.line{
+    margin-top:-25px;
+}
 ::selection {
     background: rgb(200, 158, 81); /* WebKit/Blink Browsers */
     color:white;
@@ -170,6 +218,15 @@ a{
     }
 }
 
+
+@media only screen and (min-width:660px){
+    .stick{
+        position:sticky !important;
+        top:0;
+    
+    }
+
+}
 @media only screen and (min-width:660px) and (max-width: 930px) {
    
 

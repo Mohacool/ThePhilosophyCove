@@ -8,26 +8,13 @@
     <!-- Import our css file -->
     <link href="subPages_style.css" rel="stylesheet">
 
-    <style>
-        @media only screen and (min-width:1200px) and (max-width: 1290px) {
-            .subtitle{
-                transform:translate(-63px,40px) rotate(90deg);
-                transform-origin: bottom left;
-            }
-        }
-        @media only screen and (min-width:1100px) and (max-width: 1170px) {
-            .subtitle{
-                transform:translate(-63px,40px) rotate(90deg);
-                transform-origin: bottom left;
-            }
-        }
-    </style>
-
     <!-- Import Bootstrap,Jquery... -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M" crossorigin="anonymous">
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js" integrity="sha384-b/U6ypiBEHpOf/4+1nzFpr53nxSS+GLCkfwBdFNTxtclqqenISfwAzpKaMNFNmj4" crossorigin="anonymous"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js" integrity="sha384-h0AbiXch4ZDo7tp9hKZ4TsHbi047NrKGLO3SEJAg45jXxnGIfYzk4Si90RDIqNm1" crossorigin="anonymous"></script>
+
+   
 
     <script
     src="https://code.jquery.com/jquery-3.4.1.min.js"
@@ -35,39 +22,138 @@
     crossorigin="anonymous"></script>
     <script type="text/javascript">
 
-
-        $(document).ready(function () {
-            //your code here
-
-            // Get all the file names in include 
-            $.get('./Posts/Philosophy/include',{},function(content){
-
-                // Ex:  ["1_blah_blah","2_blee_blee"]
-                let post_names=content.split('\n');
-
-                console.log(post_names);
-
-                // Loop through first 3 posts (all posts currently )
-                // Later put in function and load 3 at a time
-                // each time View more is clicked change i. for example i=3 -> 6
-                for (i=0;i<post_names.length;i++){
-
-                    let post_name = post_names[i];
-                    let post_number = post_names[i].split('_')[0];
-                    let post_location = `./Posts/Philosophy/${post_name}.txt`;
-                    
+        
+        var global_max = 3; // # of posts on the page
+        var all_post_names; //
+        var all_post_dates = [];
+        var collapsed = false;
+        var first_time = true;
+        var all =[];
+        var dark=false;
+        var collapsed_story = -1;
 
 
-                    // If its not an empty line
-                    if (post_name.length!=0){
+        function add(arr){
+                console.log("add is running");
+                all.push(arr);
+        }
 
-                        console.log(post_name);
-                        console.log(post_number);
+        
 
-                        // Create the post container element
-                        $('body').append(`
+        function bulb(){
+            if (dark==false){
+                
+                var invert = "invert()";
+                var text = "rgb(255, 249, 234)";
+                var back = "#232323";
+                dark = true;
+                var card = "rgba(158, 154, 145, 0.185)";
+                
+            }
+            else{
+                var text = "black";
+                var back = "rgb(255, 249, 234)";
+                var invert = "invert(0)";
+                var card = "rgba(202, 150, 54, 0.185)";
 
-                            <div class="container pt-4 do">
+                
+                dark = false;
+            }
+
+            document.body.style.cssText = `background-color:${back} !important`;
+            
+            $("p").css({"color":text});
+            $("h5").css({"color":text});
+            $("#plus").css({"filter":invert});
+            $(".bulb").css({"filter":invert});
+            $(".filter").css({"filter":invert});
+            $('.mycards').attr('style', `background-color: ${card} !important`);
+            $(".month").css({"color":text})
+           
+
+        }
+
+        function uncollapse(number){
+
+            function toggle(number) {
+                var x = document.getElementById(`bodytext${number}`);
+                if (x.style.display === "none") {
+                    x.style.display = "block";
+                } 
+                else {
+                    x.style.display = "none";
+                }
+            }
+
+            function close(l){
+                var t = document.getElementById(`bodytext${l}`);
+                t.style.display = "none";
+            }
+
+            toggle(number);
+
+            for (i=0;i<all.length;i++){
+                if(i!=number){
+                    close(i);
+                }
+            }
+            
+            
+            
+            
+            
+        }
+
+        function load_all(post_names){
+
+            all_post_names = post_names.valueOf();
+            
+            post_names.reverse();
+            for (i=0;i<post_names.length;i++){
+
+                let post_name = post_names[i];
+                let post_number = post_names[i].split('_')[0];
+                let post_location = `./Posts/Philosophy/${post_name}.txt`;
+                console.log("post+"+post_location);
+                
+                // If its not an empty line
+                if (post_name.length!=0){
+                    //all.push([post_number])
+
+                    // Get the post .txt and add it to container element 
+                    $.ajax({
+                    url: post_location,
+                    dataType: "text",
+                    async: false,
+                    success: (content) => {
+
+
+                        let lines=content.split('\n');
+
+                        // Get title,date and body 
+                        let title = lines[0];
+                        let date = lines[2];
+                        let body = lines.slice(4,);
+                        console.log("==========PUTTING"+post_number);
+
+                        // New body after adding line breaks
+                        let blody = body.map( element => element.replace('','<br>'));
+                        var display="block";
+                        var show_line_break = "inline-block";
+
+                        let cutoff = post_names.length - 3 + 1;
+
+                        if (post_number<cutoff){
+                            display="none";
+                        }
+
+                        if (post_number==cutoff || post_number==1){
+                            show_line_break = "none";
+                        }
+
+                        $('#posts').append(`
+
+                            <div id=post${post_number} class="container pt-4 do" style="display:${display}">
                                 <div class="row">
 
                                     <div class="col-md-2"></div>
@@ -85,64 +171,481 @@
 
                                     </div>
                                 </div>
+
+                                <div class="row mt-3">
+                                    <p id=linebreak${post_number} class="mx-auto" style=display:${show_line_break}>_______________</p>
+                                </div>
+                            </div>
+                            
+
+                        `);
+                        // only show the first 3
+                        console.log(post_number);
+                        console.log("PUTTING"+post_number)
+
+                        $(`#title${post_number}`).text(title);
+                        $(`#date${post_number}`).text(date);
+                        $(`#story${post_number}`).html(blody);
+
+                        // Add all the stories to global list all
+                        add([title,date,blody]);
+
+                        /*
+                        //later if its less than 3
+                        if (post_number<global_max){
+
+                            $('#posts').append(`
+                                <div class="row mt-3">
+                                    <p class="mx-auto">_______________</p>
+                                </div>
+                            `
+                            );
+
+                        }
+                        */
+                        
+                        
+                        
+
+                    }
+                    });
+                    
+                    
+                }
+                
+            }
+            // Add a + at the end of the first 3
+            $('#posts').append(`
+                <div id="plusrow" class="row pt-4 pb-4">
+                    
+                    <img id="plus" class="mx-auto" src="plus.svg" onclick="plus()">
+                    
+                </div>
+            `);
+            
+            //console.log("all is"+all);
+        }
+
+        // Get full month name. Ex: 'aug' -> 'August'
+        function fullMonthName(short_month){
+            
+            var months = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+
+            if (months.includes(short_month)){
+                return short_month;
+            }
+
+            for (x=0;i<months.length;x++){
+                if (short_month.toLowerCase()==months[x].slice(0,3).toLowerCase()){
+                    return months[x];
+                }
+            }
+        }
+
+        function collapse(){
+            
+            
+
+            if (collapsed==true){
+                console.log("collapsed is true");
+                document.getElementById("posts").style.display = "block";
+                document.getElementById("collapsed_cards").style.display = "none";
+                collapsed=false;
+            }
+            else if (collapsed==false){
+                
+               
+                console.log("collapsed is false");
+
+                //console.log(all_post_names);
+                var months_added = [];
+                var years_added = [];
+                // Clear all the posts
+                document.getElementById("posts").style.display = "none";
+                console.log("SET: posts display:none");
+                
+
+                // Show the collapsed cards
+                document.getElementById("collapsed_cards").style.display = "block";
+                console.log("SET: collapsed cards display:block");
+
+                //document.getElementById("posts").outerHTML = "";
+
+                //console.log(all_post_dates);
+
+                //all.reverse();
+                if (first_time==true){
+
+
+                    for (i=0;i<all.length;i++){
+                        console.log("i="+i);
+
+                        let date = all[i][1].split(" ");
+                        let month = date[0];
+                        let day = date[1];
+                        let year = date[2];
+
+                        // If the year has already been added don't add it
+                        if (!(years_added.includes(year))){
+
+                            // Dont include the current year
+                            if (!(year==new Date().getFullYear())){
+                                document.getElementById("collapsed_cards").innerHTML+=`
+
+                                <div class="row">
+                                    <h1 style="font-size:150px;color:gray" class="mx-auto">${year}</h1>
+                                </div>
+                                
+
+                                `;
+
+                            }
+
+                            
+                            years_added.push(year);
+
+                        }
+                        
+
+
+                        month=fullMonthName(month);
+
+                        console.log(month);
+                        // If the month isn't added add it
+                        if (!(months_added.includes(month))){
+
+                            console.log("adding...");
+                            months_added.push(month);
+
+                            document.getElementById("collapsed_cards").innerHTML+=`
+
+                                <div class="row">
+                                    <h1 class="mx-auto month pb-3 pt-3">${month.toUpperCase()}</h1>
+                                </div>
+
+                            `;
+
+                        }
+                        document.getElementById("collapsed_cards").innerHTML+=`
+                            <div id="collapsed_story${i}" class="row pb-1" onclick="uncollapse(${i})">
+
+                                <div class="col-md-2 red"></div>
+                                <div class="col-md-8 red middle">
+
+                                    <div id="collapse_inner${i}" class="card mycards pt-2 pb-2">
+
+                                        <h5 class="mx-auto my-auto post_title">${all[i][0]} </h5>
+                                        <p class="mx-auto my-auto mydate" style="font-style:italic;font-size:14px;">${all[i][1]} </p>
+                                        <!--<p class="mx-auto line"> ___________</p> -->
+                                        <div>
+                                        <p id="bodytext${i}"style="display:none"> ${all[i][2].join(' ')}</p>
+                                        </div>
+                                        
+
+                                    </div>
+
+                                </div>
+                                <div class="col-md-2 red" ></div>
+
+
                             </div>
 
+
+                            `;
+
+                        //console.log(all_post_dates[i]);
+                    }
+                }
+                
+
+                collapsed=true;
+                if (dark==true){
+                    bulb();
+                    bulb();
+                    
+                }
+
+            }
+            first_time=false;
+
+            document.getElementById("collapsed_cards").innerHTML+=`
+
+                    <div class="row mt-3" height="120px">
+                        
+                    </div>
+
+                `;
+            //console.log(months_added);
+            
+            
+            //console.log("I need it here"+ all_post_dates);
+            
+  
+            
+        }
+
+        function getDates(){
+            // Get all the post dates, push into all_post_dates
+            for (i=0;i<all_post_names.length;i++){
+
+                $.get(`./Posts/Philosophy/${all_post_names[i]}.txt`,{},function(content){
+
+                    // Convert the dates into Date type
+                    var date = new Date(content.split('\n')[2]);
+                    
+                    
+                    // Extract [Month,Day,Year] and push to all_post_dates
+                    all_post_dates.push(date.toString().split(" ").slice(1,4).join(" "));
+
+                });
+            }
+
+        }
+       
+        
+        
+
+        function plus(){
+
+            // Remove the + sign
+            document.getElementById("plusrow").outerHTML = "";
+
+            
+
+            
+            
+            show_posts();
+
+            // Load 3 more posts
+            //put_posts(global_max,global_max+3);
+
+            // Increase total # of posts
+            global_max +=3;
+
+        }
+
+        // Show 3 more posts
+        function show_posts(amount=3){
+
+            //document.getElementById(`post${global_max}`).style.display="block";
+            let pos = all.length - global_max;
+
+            // Replace + with line break
+            document.getElementById(`linebreak${pos+1}`).style.display="block";
+            
+            console.log(global_max + +1);
+            console.log(global_max+ +amount+1);
+
+            
+            
+            for (p=pos;p>pos-amount;p--){
+                
+                document.getElementById(`post${p}`).style.display = "block";
+                //console.log("Show post"+p);
+            }
+            
+            console.log(pos);
+            console.log(pos-amount);
+            document.getElementById(`linebreak${pos-amount+1}`).style.display="none";
+
+            $('#posts').append(`
+                    <div id="plusrow" class="row pt-4 pb-4">
+
+
+                        <img id="plus" class="mx-auto" src="plus.svg" onclick="plus()">
+                        
+
+                    </div>
+            `);
+
+        }
+
+        
+
+        function put_posts(start,amount){
+            //console.log("ALL IS" + all);
+            console.log("put posts is running");
+            let last_post_index = amount-1;
+        
+            for (z=start;z<amount;z++){
+                let post_number = z+1;
+                
+                let title = all[z][0];
+                let date = all[z][1];
+                let body = all[z][2];
+
+                $('#posts').append(`
+
+                        <div class="container pt-4 do">
+                            <div class="row">
+
+                                <div class="col-md-2"></div>
+                                <div class="col-md-8 do">
+                                    
+                                    <div class="row do">
+                                        <h5 id="${"title"+post_number}" class="mx-auto  post_title" ></p>
+                                    </div>
+
+                                    <div class="row mydate do">
+                                        <p id="${"date"+post_number}" class="mx-auto" style="font-style:italic; font-size:14px;"></p>
+                                    </div>
+
+                                    <p id="${"story"+post_number}"></p>
+
+                                </div>
+                            </div>
+                        </div>
+
+                `);
+                $(`#title${post_number}`).text(title);
+                $(`#date${post_number}`).text(date);
+                $(`#story${post_number}`).html(body);
+
+                
+            }
+
+            // Add a + sign after the last post
+            $('#posts').append(`
+                    <div id="plusrow" class="row pt-4 pb-4">
+
+
+                        <img id="plus" class="mx-auto" src="plus.svg" onclick="plus()">
+                        
+
+                    </div>
+            `);
+        }
+
+        // Load posts from post_number to post_number + amount
+        function load_posts(post_names, post_number,amount=3){
+
+            all_post_names=post_names.valueOf(); // Store global variable with all the post_names
+
+            console.log("Post names at this point is:"+ post_names);
+
+            let last_post_index = post_number+ amount -1 ;
+
+            for (i=post_number;i<post_number+amount;i++){
+
+                console.log("loading i="+i);
+                let post_name = post_names[i];
+                let post_number = post_names[i].split('_')[0];
+                let post_location = `./Posts/Philosophy/${post_name}.txt`;
+
+                // If its not an empty line
+                if (post_name.length!=0){
+
+                    console.log(post_name);
+                    console.log(post_number);
+
+                    // Create the post container element
+                    $('#posts').append(`
+
+                        <div class="container pt-4 do">
+                            <div class="row">
+
+                                <div class="col-md-2"></div>
+                                <div class="col-md-8 do">
+                                    
+                                    <div class="row do">
+                                        <h5 id="${"title"+post_number}" class="mx-auto  post_title" ></p>
+                                    </div>
+
+                                    <div class="row mydate do">
+                                        <p id="${"date"+post_number}" class="mx-auto" style="font-style:italic; font-size:14px;"></p>
+                                    </div>
+
+                                    <p id="${"story"+post_number}"></p>
+
+                                </div>
+                            </div>
+                        </div>
+
+                    `);
+                    
+                   
+                    // Don't include the line break on the last post
+                    if (i!=last_post_index){
+                        $('#posts').append(`
                             <div class="row mt-3">
                                 <p class="mx-auto">_______________</p>
                             </div>
-
-                        `);
-                        
-                        // Get the post .txt and add it to container element 
-                        $.get(post_location,{},function(content){
-
-                            let lines=content.split('\n');
-
-                            // Get title,date and body 
-                            let title = lines[0];
-                            let date = lines[2];
-                            let body = lines.slice(4,);
-
-
-
-                            // New body after adding line breaks
-                            let blody = body.map( element => element.replace('','<br>'));
-
-                            //console.log(`Title : ${title}`);
-                            //console.log(`Date : ${date}`);
-                            //console.log(`Body : ${blody}`);
-
-                            // append to divs
-                            $(`#title${post_number}`).text(title);
-                            $(`#date${post_number}`).text(date);
-                            $(`#story${post_number}`).html(blody);
-
-
-
-                        });
-
-
+                        `
+                        );
                     }
                     
+                    
+                    // Get the post .txt and add it to container element 
+                    $.get(post_location,{},function(content){
 
+                        let lines=content.split('\n');
+
+                        // Get title,date and body 
+                        let title = lines[0];
+                        let date = lines[2];
+                        let body = lines.slice(4,);
+
+                        // New body after adding line breaks
+                        let blody = body.map( element => element.replace('','<br>'));
+
+                        //console.log(`Title : ${title}`);
+                        //console.log(`Date : ${date}`);
+                        //console.log(`Body : ${blody}`);
+
+                        // append to divs
+                        $(`#title${post_number}`).text(title);
+                        $(`#date${post_number}`).text(date);
+                        $(`#story${post_number}`).html(blody);
+
+                    });
+                    
                 }
+            }
+
+            // Add a + sign after the last post
+            $('#posts').append(`
+                <div id="plusrow" class="row pt-4 pb-4">
 
 
+                    <img id="plus" class="mx-auto" src="plus.svg" onclick="plus()">
+                    
+
+                </div>
+            `);
+
+
+        }
+
+
+        $(document).ready(function () {
+        
+            
+               
+            // Get all the file names in include 
+            $.get('./Posts/Philosophy/include',{},function(content){
+
+                // Ex:  ["1_blah_blah","2_blee_blee"]
+                var post_names=content.split('\n');
+                //console.log(post_names);
+
+                
+                load_all(post_names);
+                
+                //put_posts(0,3);
+                //load_posts(post_names,0,3); // Load the top 3 (amount=3 default)
+                
+                
+                //getDates();
+
+                //console.log(all_post_dates);
+                
+            
             });
-
+            //console.log("all is+" +all);
+            // Add array to all (master list of all stories)
             
             
-
-            
-
-            
-
-
-
-            
-
-            
-
+              
 
         });
         
@@ -153,13 +656,42 @@
 
 
 <body>
-    <nav class="navbar sticky-top navbar-light desktop">
-        <a class="navbar-brand pt-3 pl-2" href="index.html">
-          <img class="mylogo" height ="60" width = "60" src="logoNoText.png"  alt="">
+
+    
+    <!-- sticky top add to make it move-->
+    <nav class="navbar stick navbar-light desktop">
+        <a class="navbar-brand  pt-3 pl-2" href="index.html">
+          <img class="mylogo" height ="60" width = "60" src="logoNoText.png">
         </a>
         <h5 class="subtitle navbar-text mr-auto">Philosophical Works</h5>
-           
+
+        <!-- <img class="navbar-brand bulb" src="bulb.svg "height="50px" onclick="bulb()"> -->
+        <img class="navbar-brand filter" src="filter.svg "height="40px" onclick="collapse()">
+
     </nav>
+
+
+    <!--
+    <nav class="navbar mymovelogo sticky-top navbar-light desktop">
+    <a class="navbar-brand pt-3 pl-2" href="index.html">
+        <img class="mylogo" height ="60" width = "60" src="logoNoText.png"  alt="">
+    </a>
+    </nav>
+    -->
+    
+
+    
+    <div id="posts">
+
+    </div>
+
+    <div class="circle">
+        <img class="bulbfoot float-right" src="bulb.svg "height="38px" onclick="bulb()">
+
+    </div>
+
+   
+    
 
    
     <!--
@@ -184,8 +716,8 @@
 
     
 
-    <!-- BLOG POST SAMPLE
-    <div class="container pt-4 do">
+    <!-- BLOG POST SAMPLE 
+    <div class="container  pt-4 do">
         <div class="row">
             <div class="col-md-2"></div>
 
@@ -194,30 +726,46 @@
                 <div class="row do">
                     <h5 class="mx-auto post_title" >A Walk in The Park </p>
                 </div>
+
                 <div class="row mydate do">
-                    <p class="mx-auto" style="font-style:italic; font-size:14px;">07/23/2020</p>
-                    
+                    <p class="mx-auto" style="font-style:italic; font-size:14px;">07/23/2020</p> 
                 </div>
 
                     <p>
                         Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed ultricies sapien non efficitur dapibus. Aenean convallis iaculis felis, at bibendum ex gravida vel. Phasellus nec arcu sed neque dapibus scelerisque vel in ante. Aenean imperdiet velit non mauris dignissim, eu condimentum massa aliquet. Aenean vel ultrices lectus. In feugiat tellus faucibus felis pellentesque, id bibendum nunc convallis. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; Donec posuere neque purus. In non enim odio. Quisque enim justo, efficitur non vulputate a, fringilla ut urna.
             
-            Donec in sem luctus mauris fermentum venenatis vitae ut neque. Mauris a hendrerit nunc. Donec pellentesque purus in ante suscipit imperdiet. Praesent lacinia, urna vitae congue varius, est leo commodo mauris, vel mollis mauris ligula a risus. Praesent nec enim quam. Ut ornare porttitor sodales. Praesent nisl urna, eleifend vel lectus sed, pharetra pretium leo. Maecenas facilisis neque at orci pulvinar vestibulum. Interdum et malesuada fames ac ante ipsum primis in faucibus. Nulla facilisi. Nulla aliquam, augue id ultrices imperdiet, enim ipsum vehicula risus, id fermentum turpis quam id lorem. Morbi vitae pretium lectus.
-            
-            Nullam tristique neque at viverra hendrerit. <br><br> Integer ut egestas erat. Maecenas quis ipsum ut est viverra imperdiet at vitae ante. Maecenas ac ullamcorper dui. Nunc eu pellentesque orci, id sagittis ex. Etiam eget quam ut enim hendrerit efficitur. Sed vehicula ex non tristique vehicula. Cras felis orci, pellentesque sit amet volutpat sed, gravida nec felis. Suspendisse tincidunt malesuada ornare. In tincidunt tellus risus, ac blandit nibh iaculis vitae. Integer ullamcorper augue id odio pulvinar ultrices. Curabitur et egestas dui. Ut erat risus, venenatis eget commodo a, scelerisque in tellus. Vivamus dapibus luctus maximus. In eget odio ante.
-            
-            Cras tempus, metus vel viverra feugiat, est leo ornare leo, quis dignissim nisl odio porta enim. Pellentesque sit amet dui quis libero pellentesque maximus faucibus vel dolor. Nullam sit amet ullamcorper ante. Sed condimentum ante ac faucibus pulvinar. Nullam arcu velit, faucibus sed mauris elementum, blandit semper justo. Nunc erat est, placerat at facilisis sed, condimentum nec quam. Sed a condimentum nibh. Sed vulputate tincidunt metus sit amet condimentum. Vivamus finibus viverra lacus. Nam vel nisl sollicitudin, tincidunt purus a, tincidunt nisi. Nullam id eros imperdiet, rhoncus sapien nec, pulvinar urna. Donec mattis purus eget urna vestibulum porttitor.
-            
-            Nulla euismod scelerisque faucibus. <br><br> Praesent ut ante dolor. Pellentesque porttitor, arcu ac euismod lobortis, velit tortor imperdiet ante, sit amet tempus sapien nulla sed lectus. Phasellus eu finibus elit. Vestibulum aliquet tincidunt efficitur. Proin at gravida est, sed malesuada enim. Ut in egestas nisi. Quisque aliquet ac nibh vel suscipit.
+                        Donec in sem luctus mauris fermentum venenatis vitae ut neque. Mauris a hendrerit nunc. Donec pellentesque purus in ante suscipit imperdiet. Praesent lacinia, urna vitae congue varius, est leo commodo mauris, vel mollis mauris ligula a risus. Praesent nec enim quam. Ut ornare porttitor sodales. Praesent nisl urna, eleifend vel lectus sed, pharetra pretium leo. Maecenas facilisis neque at orci pulvinar vestibulum. Interdum et malesuada fames ac ante ipsum primis in faucibus. Nulla facilisi. Nulla aliquam, augue id ultrices imperdiet, enim ipsum vehicula risus, id fermentum turpis quam id lorem. Morbi vitae pretium lectus.
+                        
+                        Nullam tristique neque at viverra hendrerit. <br><br> Integer ut egestas erat. Maecenas quis ipsum ut est viverra imperdiet at vitae ante. Maecenas ac ullamcorper dui. Nunc eu pellentesque orci, id sagittis ex. Etiam eget quam ut enim hendrerit efficitur. Sed vehicula ex non tristique vehicula. Cras felis orci, pellentesque sit amet volutpat sed, gravida nec felis. Suspendisse tincidunt malesuada ornare. In tincidunt tellus risus, ac blandit nibh iaculis vitae. Integer ullamcorper augue id odio pulvinar ultrices. Curabitur et egestas dui. Ut erat risus, venenatis eget commodo a, scelerisque in tellus. Vivamus dapibus luctus maximus. In eget odio ante.
+                        
+                        Cras tempus, metus vel viverra feugiat, est leo ornare leo, quis dignissim nisl odio porta enim. Pellentesque sit amet dui quis libero pellentesque maximus faucibus vel dolor. Nullam sit amet ullamcorper ante. Sed condimentum ante ac faucibus pulvinar. Nullam arcu velit, faucibus sed mauris elementum, blandit semper justo. Nunc erat est, placerat at facilisis sed, condimentum nec quam. Sed a condimentum nibh. Sed vulputate tincidunt metus sit amet condimentum. Vivamus finibus viverra lacus. Nam vel nisl sollicitudin, tincidunt purus a, tincidunt nisi. Nullam id eros imperdiet, rhoncus sapien nec, pulvinar urna. Donec mattis purus eget urna vestibulum porttitor.
+                        
+                        Nulla euismod scelerisque faucibus. <br><br> Praesent ut ante dolor. Pellentesque porttitor, arcu ac euismod lobortis, velit tortor imperdiet ante, sit amet tempus sapien nulla sed lectus. Phasellus eu finibus elit. Vestibulum aliquet tincidunt efficitur. Proin at gravida est, sed malesuada enim. Ut in egestas nisi. Quisque aliquet ac nibh vel suscipit.
                     </p>
 
-                </div>
+            </div>
+            
         </div>
         
     </div>
     -->
     
+    <div id="collapsed_cards" class="container">
+        <div class="row" style="margin-top:50px">
+        </div>
+
+        
+        
+        
+
+        
+        
+        
+        
+        
+    </div>
 
 
 </body>
+
 </html>

@@ -30,12 +30,15 @@
         var first_time = true;
         var all =[];
         var dark=false;
+        var collapsed_story = -1;
 
 
         function add(arr){
                 console.log("add is running");
                 all.push(arr);
         }
+
+        
 
         function bulb(){
             if (dark==false){
@@ -44,48 +47,60 @@
                 var text = "rgb(255, 249, 234)";
                 var back = "#232323";
                 dark = true;
-
+                var card = "rgba(158, 154, 145, 0.185)";
+                
             }
             else{
                 var text = "black";
                 var back = "rgb(255, 249, 234)";
                 var invert = "invert(0)";
+                var card = "rgba(202, 150, 54, 0.185)";
+
                 
                 dark = false;
             }
+
             document.body.style.cssText = `background-color:${back} !important`;
+            
             $("p").css({"color":text});
             $("h5").css({"color":text});
             $("#plus").css({"filter":invert});
             $(".bulb").css({"filter":invert});
             $(".filter").css({"filter":invert});
-            
+            $('.mycards').attr('style', `background-color: ${card} !important`);
+            $(".month").css({"color":text})
            
 
         }
 
         function uncollapse(number){
-            document.getElementById(`collapse_inner${number}`).innerHTML += `
 
-            <div >
-                <p>
-                    <br><br>
-                    They could hear the key turning in the lock again, and Hortense ran to the window which looked out onto the street, opened it quickly and then in a low and determined voice said: 'You will come and pick me up when he is gone,' and she jumped out.
+            function toggle(number) {
+                var x = document.getElementById(`bodytext${number}`);
+                if (x.style.display === "none") {
+                    x.style.display = "block";
+                } 
+                else {
+                    x.style.display = "none";
+                }
+            }
 
-                    "What do you want?" "I think you are looking adorable."
+            function close(l){
+                var t = document.getElementById(`bodytext${l}`);
+                t.style.display = "none";
+            }
 
-                    Immediately a man with a white apron appeared, carrying two "bocks," which he set down, foaming, on the table, spilling some of the yellow liquid on the sandy floor in his haste.
+            toggle(number);
 
-                    Bill was pasting court-plaster over the scratches and bruises on his features. There was a fire burning behind the big rock at the entrance of the cave, and the boy was watching a pot of boiling coffee, with two buzzard tailfeathers stuck in his red hair. He points a stick at me when I come up, and says:
-
-                    "Ha! cursed paleface, do you dare to enter the camp of Red Chief, the terror of the plains?"
-                </p>
-
-            </div>
-
-
-            `
-            ;
+            for (i=0;i<all.length;i++){
+                if(i!=number){
+                    close(i);
+                }
+            }
+            
+            
+            
+            
             
         }
 
@@ -127,7 +142,7 @@
                         var show_line_break = "inline-block";
 
                         let cutoff = post_names.length - 3 + 1;
-
+                        console.log("lol post_number="+post_number+" cutoff="+cutoff);
                         if (post_number<cutoff){
                             display="none";
                         }
@@ -228,6 +243,8 @@
         }
 
         function collapse(){
+            
+            
 
             if (collapsed==true){
                 console.log("collapsed is true");
@@ -236,6 +253,8 @@
                 collapsed=false;
             }
             else if (collapsed==false){
+                
+               
                 console.log("collapsed is false");
 
                 //console.log(all_post_names);
@@ -271,16 +290,18 @@
 
                             // Dont include the current year
                             if (!(year==new Date().getFullYear())){
+                                document.getElementById("collapsed_cards").innerHTML+=`
+
+                                <div class="row">
+                                    <h1 style="font-size:150px;color:gray" class="mx-auto">${year}</h1>
+                                </div>
+                                
+
+                                `;
+
                             }
 
-                            document.getElementById("collapsed_cards").innerHTML+=`
-
-                            <div class="row">
-                                <h1 style="font-size:150px;color:gray" class="mx-auto">${year}</h1>
-                            </div>
                             
-
-                            `;
                             years_added.push(year);
 
                         }
@@ -299,7 +320,7 @@
                             document.getElementById("collapsed_cards").innerHTML+=`
 
                                 <div class="row">
-                                    <h1 class="mx-auto">${month}</h1>
+                                    <h1 class="mx-auto month pb-3 pt-3">${month.toUpperCase()}</h1>
                                 </div>
 
                             `;
@@ -312,12 +333,15 @@
                                 <div class="col-md-8 red middle">
 
                                     <div id="collapse_inner${i}" class="card mycards pt-2 pb-2">
-                                        <span>
 
-                                            <p class="my-auto float-left">${all[i][0]}</p>
-                                            <p class="my-auto float-right">${all[i][1]}</p>
+                                        <h5 class="mx-auto my-auto post_title">${all[i][0]} </h5>
+                                        <p class="mx-auto my-auto mydate" style="font-style:italic;font-size:14px;">${all[i][1]} </p>
+                                        <!--<p class="mx-auto line"> ___________</p> -->
+                                        <div>
+                                        <p id="bodytext${i}"style="display:none"> ${all[i][2].join(' ')}</p>
+                                        </div>
+                                        
 
-                                        </span> 
                                     </div>
 
                                 </div>
@@ -335,10 +359,22 @@
                 
 
                 collapsed=true;
+                if (dark==true){
+                    bulb();
+                    bulb();
+                    
+                }
 
             }
             first_time=false;
-            
+
+            document.getElementById("collapsed_cards").innerHTML+=`
+
+                    <div class="row mt-3" height="120px">
+                        
+                    </div>
+
+                `;
             //console.log(months_added);
             
             
@@ -620,22 +656,42 @@
 
 
 <body>
-    <nav class="navbar sticky-top navbar-light desktop">
-        <a class="navbar-brand pt-3 pl-2" href="index.html">
-          <img class="mylogo" height ="60" width = "60" src="logoNoText.png"  alt="">
+
+    
+    <!-- sticky top add to make it move-->
+    <nav class="navbar stick navbar-light desktop">
+        <a class="navbar-brand  pt-3 pl-2" href="index.html">
+          <img class="mylogo" height ="60" width = "60" src="logoNoText.png">
         </a>
         <h5 class="subtitle navbar-text mr-auto">Works of Fiction</h5>
 
-        <img class="navbar-brand bulb" src="bulb.svg "height="50px" onclick="bulb()">
+        <!-- <img class="navbar-brand bulb" src="bulb.svg "height="50px" onclick="bulb()"> -->
         <img class="navbar-brand filter" src="filter.svg "height="40px" onclick="collapse()">
 
     </nav>
+
+
+    <!--
+    <nav class="navbar mymovelogo sticky-top navbar-light desktop">
+    <a class="navbar-brand pt-3 pl-2" href="index.html">
+        <img class="mylogo" height ="60" width = "60" src="logoNoText.png"  alt="">
+    </a>
+    </nav>
+    -->
     
 
     
     <div id="posts">
 
     </div>
+
+    <div class="circle">
+        <img class="bulbfoot float-right" src="bulb.svg "height="38px" onclick="bulb()">
+
+    </div>
+
+   
+    
 
    
     <!--

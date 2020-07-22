@@ -70,6 +70,7 @@ html,body{
 
 
 
+
 .mytitle{
     transform:translateY(2px);
 }
@@ -90,6 +91,32 @@ html,body{
     z-index:100;
 }
 
+.up{
+    margin-top:-29px;
+    
+}
+.copyright{
+    font: 11px 'Arial';
+    opacity:100%;
+    cursor:pointer;
+
+}
+
+
+
+.footer {
+    
+    height: 15px;
+    margin-top: -29px;
+    opacity:0.7;
+    width: 98%;
+    
+    color: #232323;
+    
+    text-align: right;
+
+    
+}
 
 
 
@@ -151,6 +178,10 @@ html,body{
 
     .pad-card{
         margin-top:-40px;
+    }
+    .footer{
+        text-align:center;
+        margin-top:0px;
     }
 }
 
