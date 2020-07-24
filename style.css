@@ -104,6 +104,7 @@ html,body{
 
 
 
+
 .footer {
     
     height: 15px;
@@ -174,15 +175,23 @@ html,body{
     }
 }
 
+@media screen and (max-width:767px){
+    .footer{
+        text-align:center;
+        margin-top:0px;
+    }
+    .about{
+        font-size:3vw;
+    }
+}
+
+
 @media screen and (min-width: 480px) and (max-width:767px){
 
     .pad-card{
         margin-top:-40px;
     }
-    .footer{
-        text-align:center;
-        margin-top:0px;
-    }
+    
 }
 
 

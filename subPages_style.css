@@ -37,8 +37,8 @@ html,body{
 }
 .mycards{
     /* background-color:rgb(255, 255, 255) !important;  */
-    /* background-color:rgba(202, 150, 54, 0.185) !important; */
-    background-color:rgba(158, 154, 145, 0.185) !important;
+    background-color:rgba(202, 150, 54, 0.185) !important;
+    /* background-color:rgba(158, 154, 145, 0.185) !important; */
 
     /* height:50px; */
     
@@ -210,7 +210,7 @@ a{
 }
 
 
-@media only screen and (max-width:767px){
+@media only screen and (max-device-width:767px){
     
     .circle{
         right:20px;   
