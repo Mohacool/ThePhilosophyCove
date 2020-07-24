@@ -136,6 +136,7 @@ html,body{
 
 .post_title{
     font-style:bold;
+
 }
 
 p{
@@ -209,7 +210,12 @@ a{
     text-decoration:none;
 }
 
-
+@media only screen and (max-width:430px){
+    
+    .post_title{
+        font-size:4vw;
+    }
+}
 @media only screen and (max-device-width:767px){
     
     .circle{
