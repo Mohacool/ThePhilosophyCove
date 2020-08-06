@@ -1,3 +1,3 @@
 ## ThePhilosophyCove
 
-#Publishes short stories and philosophical writings
+# Publishes short stories and philosophical writings
